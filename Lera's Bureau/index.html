@@ -494,19 +494,19 @@
     </footer>
 
     <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
     <script>
-        // Firebase configuration
+        // Firebase configuration - ИСПРАВЛЕННЫЕ ДАННЫЕ
         const firebaseConfig = {
-            apiKey: "AIzaSyBk4nxZ1IdNQUCxsbgaeYTkm9stq0o902Q",
+            apiKey: "AIzaSyBk4nxZ1ldNQUCxsbgaeYTkm9stq0o9o2Q",
             authDomain: "deygram-e4814.firebaseapp.com",
             projectId: "deygram-e4814",
             storageBucket: "deygram-e4814.firebasestorage.app",
             messagingSenderId: "591207353726",
-            appId: "1:591207353726:web:your-app-id"
+            appId: "1:591207353726:web:d20f5e648d3daf86fcb72f"
         };
 
         // Initialize Firebase
@@ -559,6 +559,7 @@
 
         async function login() {
             const provider = new firebase.auth.GoogleAuthProvider();
+            provider.setCustomParameters({ prompt: 'select_account' });
             try {
                 await auth.signInWithPopup(provider);
             } catch (error) {
