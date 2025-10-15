@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Wiki | Главная</title>
+    <style>
+        /* Пиксельный шрифт в стиле Майнкрафт */
+        @font-face {
+            font-family: 'Minecraft';
+            src: url('https://cdn.jsdelivr.net/npm/minecraft-font@1.0.0/font/minecraft.woff2') format('woff2');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            image-rendering: pixelated;
+        }
+
+        body {
+            font-family: 'Minecraft', monospace;
+            background: #1a1a1a url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAADElEQVQYV2NkYGD4DwACDAGfLzP+AAAAAElFTkSuQmCC') repeat;
+            color: #fff;
+            line-height: 1.4;
+        }
+
+        /* Контейнер в стиле интерфейса Майнкрафт */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAADElEQVQYV2NkYGD4DwACDAGfLzP+AAAAAElFTkSuQmCC') #2d2d2d;
+            border: 4px solid #5a5a5a;
+            border-image: 
+                url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFUlEQVQYV2NkYGD4z4AEjDAGKmAEAGj8A9fHfF5TAAAAAElFTkSuQmCC') 
+                4 stretch;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
+
+        /* Шапка в стиле таблички */
+        .header {
+            background: #3a3a3a;
+            border: 3px solid #5a5a5a;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .header h1 {
+            color: #55FF55;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 0 #000;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            color: #AAAAAA;
+            font-size: 1.2em;
+            margin-top: 5px;
+        }
+
+        /* Навигация в стиле кнопок Майнкрафт */
+        .nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .nav-btn {
+            background: #3a3a3a;
+            border: 3px solid #5a5a5a;
+            padding: 15px;
+            text-align: center;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: all 0.1s;
+            cursor: pointer;
+        }
+
+        .nav-btn:hover {
+            background: #4a4a4a;
+            border-color: #6a6a6a;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:active {
+            transform: translateY(0);
+            background: #2a2a2a;
+        }
+
+        /* Сетка категорий в стиле блоков */
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .category {
+            background: #3a3a3a;
+            border: 3px solid #5a5a5a;
+            padding: 20px;
+            position: relative;
+        }
+
+        .category::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 1px solid rgba(255,255,255,0.1);
+            pointer-events: none;
+        }
+
+        .category h3 {
+            color: #FFAA00;
+            font-size: 1.4em;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 0 #000;
+            border-bottom: 2px solid #5a5a5a;
+            padding-bottom: 5px;
+        }
+
+        .category ul {
+            list-style: none;
+            padding-left: 10px;
+        }
+
+        .category li {
+            margin: 8px 0;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .category li::before {
+            content: '■';
+            color: #55FF55;
+            position: absolute;
+            left: 0;
+        }
+
+        .category a {
+            color: #55AAFF;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .category a:hover {
+            color: #77CCFF;
+            text-decoration: underline;
+        }
+
+        /* Блок популярных модов */
+        .mods-section {
+            background: #2a2a2a;
+            border: 3px solid #5a5a5a;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .mods-section h2 {
+            color: #FF5555;
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            text-align: center;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+        .mods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+        }
+
+        .mod-card {
+            background: #3a3a3a;
+            border: 2px solid #5a5a5a;
+            padding: 15px;
+            transition: all 0.2s;
+        }
+
+        .mod-card:hover {
+            border-color: #6a6a6a;
+            background: #4a4a4a;
+        }
+
+        .mod-card h4 {
+            color: #FFAA00;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+
+        .mod-card p {
+            color: #AAAAAA;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+
+        .mod-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .mod-tag {
+            background: #5a5a5a;
+            color: #fff;
+            padding: 2px 6px;
+            font-size: 0.8em;
+            border: 1px solid #6a6a6a;
+        }
+
+        /* Футер */
+        .footer {
+            background: #2a2a2a;
+            border: 3px solid #5a5a5a;
+            padding: 15px;
+            text-align: center;
+            color: #888;
+            font-size: 0.9em;
+            margin-top: 20px;
+        }
+
+        /* Анимации */
+        @keyframes glow {
+            0% { text-shadow: 0 0 5px #55FF55; }
+            50% { text-shadow: 0 0 20px #55FF55, 0 0 30px #55FF55; }
+            100% { text-shadow: 0 0 5px #55FF55; }
+        }
+
+        .glowing {
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 10px;
+            }
+            
+            .nav {
+                grid-template-columns: 1fr;
+            }
+            
+            .categories {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Шапка -->
+        <header class="header">
+            <h1 class="glowing">⛏️ MINECRAFT WIKI</h1>
+            <p>Всё о Майнкрафте: гайды, лор, моды и секреты!</p>
+        </header>
+
+        <!-- Навигация -->
+        <nav class="nav">
+            <a href="#" class="nav-btn">🏠 Главная</a>
+            <a href="guides/" class="nav-btn">📚 Гайды</a>
+            <a href="lore/" class="nav-btn">📖 Лор</a>
+            <a href="mods/" class="nav-btn">⚡ Моды</a>
+            <a href="secrets/" class="nav-btn">🔮 Секреты</a>
+            <a href="community/" class="nav-btn">👥 Сообщество</a>
+        </nav>
+
+        <!-- Основные категории -->
+        <div class="categories">
+            <!-- Геймплей -->
+            <div class="category">
+                <h3>🎮 ГЕЙМПЛЕЙ</h3>
+                <ul>
+                    <li><a href="workbench/">Как сделать верстак</a></li>
+                    <li><a href="furnace/">Крафт и использование печи</a></li>
+                    <li><a href="first-night/">Выживание в первую ночь</a></li>
+                    <li><a href="enchanting/">Зачарование предметов</a></li>
+                    <li><a href="redstone/">Основы редстоуна</a></li>
+                    <li><a href="breeding/">Разведение животных</a></li>
+                </ul>
+            </div>
+
+            <!-- Лор -->
+            <div class="category">
+                <h3>📖 ЛОР И ИСТОРИЯ</h3>
+                <ul>
+                    <li><a href="ancient-builders/">Древние строители</a></li>
+                    <li><a href="end-cities/">Таинства Энда</a></li>
+                    <li><a href="herobrine/">Легенда о Херобрине</a></li>
+                    <li><a href="villagers/">История жителей</a></li>
+                    <li><a href="nether-lore/">Тайны Нижнего мира</a></li>
+                    <li><a href="mob-legends/">Легенды о мобах</a></li>
+                </ul>
+            </div>
+
+            <!-- Строительство -->
+            <div class="category">
+                <h3>🏗️ СТРОИТЕЛЬСТВО</h3>
+                <ul>
+                    <li><a href="starter-house/">Первый дом</a></li>
+                    <li><a href="medieval-build/">Средневековый замок</a></li>
+                    <li><a href="modern-house/">Современный дом</a></li>
+                    <li><a href="automatic-farms/">Автоматические фермы</a></li>
+                    <li><a href="decorations/">Декорации и детали</a></li>
+                    <li><a href="underground-base/">Подземная база</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Популярные моды -->
+        <section class="mods-section">
+            <h2>⚡ ПОПУЛЯРНЫЕ МОДЫ</h2>
+            <div class="mods-grid">
+                <div class="mod-card">
+                    <h4>Create</h4>
+                    <p>Сложные механизмы и автоматизация</p>
+                    <div class="mod-tags">
+                        <span class="mod-tag">Техника</span>
+                        <span class="mod-tag">1.16+</span>
+                    </div>
+                </div>
+                <div class="mod-card">
+                    <h4>Thaumcraft</h4>
+                    <p>Система магии и исследований</p>
+                    <div class="mod-tags">
+                        <span class="mod-tag">Магия</span>
+                        <span class="mod-tag">1.12.2</span>
+                    </div>
+                </div>
+                <div class="mod-card">
+                    <h4>JourneyMap</h4>
+                    <p>Карта в реальном времени</p>
+                    <div class="mod-tags">
+                        <span class="mod-tag">Утилиты</span>
+                        <span class="mod-tag">1.8+</span>
+                    </div>
+                </div>
+                <div class="mod-card">
+                    <h4>Tinkers' Construct</h4>
+                    <p>Кастомизация инструментов</p>
+                    <div class="mod-tags">
+                        <span class="mod-tag">Крафт</span>
+                        <span class="mod-tag">1.7.10+</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Футер -->
+        <footer class="footer">
+            <p>Minecraft Wiki © 2024 | Неофициальный фанатский проект</p>
+            <p>Minecraft является товарным знаком Mojang Studios</p>
+        </footer>
+    </div>
+
+    <script>
+        // Простой скрипт для интерактивности
+        document.addEventListener('DOMContentLoaded', function() {
+            // Добавляем клик по карточкам модов
+            const modCards = document.querySelectorAll('.mod-card');
+            modCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const modName = this.querySelector('h4').textContent;
+                    alert('Переход к моде: ' + modName);
+                    // В реальном проекте: window.location.href = 'mods/' + modName.toLowerCase();
+                });
+            });
+
+            // Анимация для кнопок навигации
+            const navBtns = document.querySelectorAll('.nav-btn');
+            navBtns.forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                });
+                btn.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
