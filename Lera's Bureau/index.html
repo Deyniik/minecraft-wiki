@@ -1,142 +1,509 @@
-<script>
-    // ТВОИ НАСТРОЙКИ - ЗАПОЛНИ ЭТО!
-    const TELEGRAM_BOT_TOKEN = '6543211234:AAHdG5sdfg34gdfgDFGdfg34gdfg_GDfgdfg'; // Твой API ключ
-    const TELEGRAM_CHANNEL_ID = '-1001234567890'; // ID твоего канала
-    const POSTS_LIMIT = 10; // Сколько постов показывать
-
-    async function loadRealTelegramPosts() {
-        const container = document.getElementById('postsContainer');
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бюро блеска - Minecraft Wiki</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
         
-        try {
-            container.innerHTML = `
-                <div class="loading">
-                    <i class="fas fa-spinner fa-spin"></i>
-                    Загружаем свежие посты из Telegram...
-                </div>
-            `;
+        body {
+            background: #121212;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+        
+        /* Хедер */
+        .header {
+            background: #191414;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 0;
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1DB954;
+            text-decoration: none;
+        }
+        
+        .nav {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 8px 16px;
+            border-radius: 15px;
+        }
+        
+        .nav a:hover {
+            background: rgba(29, 185, 84, 0.2);
+            color: #1DB954;
+        }
+        
+        /* Основной контент */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .bureau-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .bureau-title {
+            font-size: 3rem;
+            color: #1DB954;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(29, 185, 84, 0.5);
+        }
+        
+        .bureau-subtitle {
+            font-size: 1.3rem;
+            color: #B3B3B3;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        
+        .telegram-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #0088cc;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .telegram-link:hover {
+            background: #0077b5;
+            transform: scale(1.05);
+        }
+        
+        /* Лента постов */
+        .posts-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .post {
+            background: rgba(40, 40, 40, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            border-left: 5px solid #1DB954;
+        }
+        
+        .post:hover {
+            background: rgba(29, 185, 84, 0.1);
+            transform: translateY(-5px);
+        }
+        
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            gap: 15px;
+        }
+        
+        .channel-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #1DB954 0%, #191414 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .post-info h3 {
+            color: #1DB954;
+            margin-bottom: 5px;
+        }
+        
+        .post-date {
+            color: #B3B3B3;
+            font-size: 0.9rem;
+        }
+        
+        .post-content {
+            color: #ffffff;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .post-image {
+            max-width: 100%;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .post-video {
+            max-width: 100%;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .post-actions {
+            display: flex;
+            gap: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 15px;
+        }
+        
+        .post-action {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #B3B3B3;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .post-action:hover {
+            color: #1DB954;
+        }
+        
+        .loading {
+            text-align: center;
+            color: #B3B3B3;
+            font-size: 1.1rem;
+            padding: 40px;
+        }
+        
+        .error {
+            text-align: center;
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .success {
+            text-align: center;
+            color: #1DB954;
+            background: rgba(29, 185, 84, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        /* Футер */
+        .footer {
+            background: #191414;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px 0;
+            margin-top: 50px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+        
+        .back-link {
+            display: inline-block;
+            background: rgba(29, 185, 84, 0.2);
+            color: #1DB954;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            background: rgba(29, 185, 84, 0.4);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- Хедер -->
+    <header class="header">
+        <div class="header-container">
+            <a href="../" class="logo">MINECRAFT WIKI</a>
+            <nav class="nav">
+                <a href="../">Главная</a>
+                <a href="#">Бюро блеска</a>
+                <a href="../#guides">Гайды</a>
+                <a href="../#mods">Моды</a>
+            </nav>
+        </div>
+    </header>
 
-            // Получаем посты из канала
-            const response = await fetch(
-                `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getChatHistory?chat_id=${TELEGRAM_CHANNEL_ID}&limit=${POSTS_LIMIT}`
-            );
+    <!-- Основной контент -->
+    <div class="container">
+        <div class="bureau-header">
+            <h1 class="bureau-title">💎 Бюро блеска</h1>
+            <p class="bureau-subtitle">Лента постов из нашего Telegram канала с самыми свежими идеями и проектами</p>
+            <a href="https://t.me/+s-V3gpepZtw5ZWIy" target="_blank" class="telegram-link">
+                <i class="fab fa-telegram"></i>
+                Подписаться на канал
+            </a>
+        </div>
+
+        <!-- Лента постов -->
+        <div class="posts-container" id="postsContainer">
+            <div class="loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                Подключаемся к Telegram...
+            </div>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>Бюро блеска - свежие идеи и проекты из Telegram</p>
+            <a href="../" class="back-link">
+                <i class="fas fa-arrow-left"></i> Вернуться на главную
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // ТВОИ НАСТРОЙКИ
+        const TELEGRAM_BOT_TOKEN = '8101995912:AAE5R2lu14yoKlyhjQ5va92xFCelAb7EtHU';
+        const TELEGRAM_CHANNEL_ID = '3093519959';
+        const POSTS_LIMIT = 15;
+
+        async function loadRealTelegramPosts() {
+            const container = document.getElementById('postsContainer');
             
-            const data = await response.json();
+            try {
+                container.innerHTML = `
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        Загружаем свежие посты из Telegram...
+                    </div>
+                `;
+
+                console.log('Пытаемся подключиться к Telegram...');
+                
+                // Получаем посты из канала
+                const response = await fetch(
+                    `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getChatHistory?chat_id=${TELEGRAM_CHANNEL_ID}&limit=${POSTS_LIMIT}`
+                );
+                
+                const data = await response.json();
+                console.log('Ответ от Telegram:', data);
+                
+                if (!data.ok) {
+                    throw new Error(data.description || 'Не удалось загрузить посты');
+                }
+
+                container.innerHTML = '';
+
+                if (data.result && data.result.messages && data.result.messages.length > 0) {
+                    // Сортируем посты по дате (новые сверху)
+                    const sortedMessages = data.result.messages.sort((a, b) => b.date - a.date);
+                    
+                    sortedMessages.forEach(message => {
+                        createPostElement(message, container);
+                    });
+
+                    // Показываем успешное сообщение
+                    const successMsg = document.createElement('div');
+                    successMsg.className = 'success';
+                    successMsg.innerHTML = `
+                        <i class="fas fa-check-circle"></i>
+                        Загружено ${sortedMessages.length} постов из Telegram канала
+                    `;
+                    container.insertBefore(successMsg, container.firstChild);
+                    
+                } else {
+                    container.innerHTML = `
+                        <div class="error">
+                            <i class="fas fa-info-circle"></i>
+                            <p>В канале пока нет постов или они недоступны.</p>
+                            <p style="margin-top: 10px;">Попробуйте позже или опубликуйте первый пост!</p>
+                        </div>
+                    `;
+                }
+
+            } catch (error) {
+                console.error('Ошибка загрузки постов:', error);
+                showError(container, error.message);
+            }
+        }
+
+        function createPostElement(message, container) {
+            const postElement = document.createElement('div');
+            postElement.className = 'post';
             
-            if (!data.ok) {
-                throw new Error('Не удалось загрузить посты');
+            const postDate = new Date(message.date * 1000);
+            const now = new Date();
+            const diffTime = Math.abs(now - postDate);
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            
+            let timeAgo;
+            if (diffDays === 0) {
+                timeAgo = 'сегодня';
+            } else if (diffDays === 1) {
+                timeAgo = 'вчера';
+            } else if (diffDays < 7) {
+                timeAgo = `${diffDays} дней назад`;
+            } else {
+                timeAgo = postDate.toLocaleDateString('ru-RU');
             }
 
-            container.innerHTML = '';
+            let postContent = '';
+            let mediaHtml = '';
 
-            // Обрабатываем каждый пост
-            data.result.messages.forEach(message => {
-                createPostElement(message, container);
-            });
+            // Обрабатываем текст поста
+            if (message.text) {
+                postContent = formatTelegramText(message.text);
+            } else {
+                postContent = '<em>Пост содержит медиа-контент</em>';
+            }
 
-            if (data.result.messages.length === 0) {
-                container.innerHTML = `
-                    <div class="error">
-                        <i class="fas fa-info-circle"></i>
-                        <p>В канале пока нет постов. Будь первым!</p>
+            // Обрабатываем медиа
+            if (message.photo) {
+                // Для реальных фото нужно сначала получить file_path
+                mediaHtml = `
+                    <div style="background: linear-gradient(135deg, #1DB954, #0088cc); 
+                         height: 200px; border-radius: 10px; display: flex; 
+                         align-items: center; justify-content: center; color: white; 
+                         font-weight: bold; margin: 15px 0;">
+                        📷 Изображение (просмотр в Telegram)
                     </div>
                 `;
             }
 
-        } catch (error) {
-            console.error('Ошибка загрузки постов:', error);
-            showError(container, error.message);
+            if (message.video) {
+                mediaHtml = `
+                    <div style="background: linear-gradient(135deg, #FF6B6B, #FF8E53); 
+                         height: 200px; border-radius: 10px; display: flex; 
+                         align-items: center; justify-content: center; color: white; 
+                         font-weight: bold; margin: 15px 0;">
+                        🎥 Видео (просмотр в Telegram)
+                    </div>
+                `;
+            }
+
+            if (message.document) {
+                mediaHtml = `
+                    <div style="background: linear-gradient(135deg, #4ECDC4, #556270); 
+                         height: 100px; border-radius: 10px; display: flex; 
+                         align-items: center; justify-content: center; color: white; 
+                         font-weight: bold; margin: 15px 0;">
+                        📎 Файл: ${message.document.file_name || 'Документ'}
+                    </div>
+                `;
+            }
+
+            postElement.innerHTML = `
+                <div class="post-header">
+                    <div class="channel-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <div class="post-info">
+                        <h3>Бюро блеска</h3>
+                        <div class="post-date">${timeAgo}</div>
+                    </div>
+                </div>
+                <div class="post-content">
+                    ${postContent}
+                </div>
+                ${mediaHtml}
+                <div class="post-actions">
+                    <span class="post-action">
+                        <i class="far fa-eye"></i>
+                        ${message.views || '0'}
+                    </span>
+                    <a href="https://t.me/c/${TELEGRAM_CHANNEL_ID.toString().replace('-100', '')}/${message.id}" 
+                       target="_blank" class="post-action">
+                        <i class="fas fa-external-link-alt"></i>
+                        Открыть в Telegram
+                    </a>
+                </div>
+            `;
+            
+            container.appendChild(postElement);
         }
-    }
 
-    function createPostElement(message, container) {
-        const postElement = document.createElement('div');
-        postElement.className = 'post';
-        
-        const postDate = new Date(message.date * 1000).toLocaleDateString('ru-RU');
-        let postContent = '';
-        let mediaHtml = '';
-
-        // Обрабатываем текст поста
-        if (message.text) {
-            postContent = formatTelegramText(message.text);
+        function formatTelegramText(text) {
+            if (!text) return '';
+            
+            return text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<strong>$1</strong>')
+                .replace(/\_(.*?)\_/g, '<em>$1</em>')
+                .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" style="color: #1DB954;">$1</a>')
+                .replace(/\n/g, '<br>')
+                .replace(/(#\w+)/g, '<span style="color: #1DB954;">$1</span>');
         }
 
-        // Обрабатываем медиа (фото, видео)
-        if (message.photo) {
-            const photo = message.photo[message.photo.length - 1]; // Берем самую большую версию
-            mediaHtml = `<img src="https://api.telegram.org/file/bot${TELEGRAM_BOT_TOKEN}/${photo.file_path}" 
-                             alt="Изображение поста" class="post-image" 
-                             onerror="this.style.display='none'">`;
-        }
+        function showError(container, message) {
+            let errorMessage = message;
+            
+            if (message.includes('400') || message.includes('chat not found')) {
+                errorMessage = 'Канал не найден. Проверь ID канала и права бота.';
+            } else if (message.includes('401') || message.includes('Unauthorized')) {
+                errorMessage = 'Неверный токен бота. Проверь API ключ.';
+            } else if (message.includes('403')) {
+                errorMessage = 'У бота нет доступа к каналу. Сделай его администратором.';
+            }
 
-        if (message.video) {
-            mediaHtml = `
-                <div class="post-video" style="background: #1DB954; height: 300px; border-radius: 10px; 
-                     display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold;">
-                    📹 Видео контент (просмотр в Telegram)
+            container.innerHTML = `
+                <div class="error">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p><strong>Ошибка подключения:</strong> ${errorMessage}</p>
+                    <div style="margin-top: 15px; font-size: 0.9rem; color: #B3B3B3;">
+                        <p>Проверь:</p>
+                        <ul style="text-align: left; margin: 10px 0; padding-left: 20px;">
+                            <li>ID канала: <code>${TELEGRAM_CHANNEL_ID}</code></li>
+                            <li>Бот добавлен как администратор канала</li>
+                            <li>API токен правильный</li>
+                        </ul>
+                    </div>
+                    <a href="https://t.me/+s-V3gpepZtw5ZWIy" target="_blank" class="telegram-link" style="margin-top: 15px;">
+                        <i class="fab fa-telegram"></i>
+                        Перейти в Telegram канал напрямую
+                    </a>
                 </div>
             `;
         }
 
-        postElement.innerHTML = `
-            <div class="post-header">
-                <div class="channel-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="post-info">
-                    <h3>Бюро блеска</h3>
-                    <div class="post-date">${postDate}</div>
-                </div>
-            </div>
-            <div class="post-content">
-                ${postContent}
-            </div>
-            ${mediaHtml}
-            <div class="post-actions">
-                <span class="post-action">
-                    <i class="far fa-eye"></i>
-                    ${message.views || 0}
-                </span>
-                <a href="https://t.me/c/${TELEGRAM_CHANNEL_ID.toString().replace('-100', '')}/${message.id}" 
-                   target="_blank" class="post-action">
-                    <i class="fas fa-external-link-alt"></i>
-                    Открыть в Telegram
-                </a>
-            </div>
-        `;
-        
-        container.appendChild(postElement);
-    }
+        // Загружаем посты при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            loadRealTelegramPosts();
+        });
 
-    function formatTelegramText(text) {
-        // Простая обработка форматирования Telegram
-        return text
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // **жирный**
-            .replace(/\_(.*?)\_/g, '<em>$1</em>') // _курсив_
-            .replace(/\n/g, '<br>'); // Переносы строк
-    }
-
-    function showError(container, message) {
-        container.innerHTML = `
-            <div class="error">
-                <i class="fas fa-exclamation-triangle"></i>
-                <p>${message || 'Не удалось загрузить посты'}</p>
-                <p style="margin-top: 10px; font-size: 0.9rem; color: #B3B3B3;">
-                    Посетите наш Telegram канал напрямую:
-                </p>
-                <a href="https://t.me/+s-V3gpepZtw5ZWIy" target="_blank" class="telegram-link" style="margin-top: 15px;">
-                    <i class="fab fa-telegram"></i>
-                    Перейти в Telegram
-                </a>
-            </div>
-        `;
-    }
-
-    // Загружаем посты при загрузке страницы
-    document.addEventListener('DOMContentLoaded', function() {
-        loadRealTelegramPosts();
-    });
-
-    // Авто-обновление каждые 10 минут
-    setInterval(loadRealTelegramPosts, 600000);
-</script>
+        // Авто-обновление каждые 5 минут
+        setInterval(loadRealTelegramPosts, 300000);
+    </script>
+</body>
+</html>
