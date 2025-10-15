@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Карты - Minecraft Wiki</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background: #121212;
+            color: #ffffff;
+            line-height: 1.6;
+            display: flex;
+        }
+        
+        /* Боковая панель как на YouTube */
+        .sidebar {
+            width: 240px;
+            background: #191414;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 25px;
+        }
+        
+        .sidebar-title {
+            color: #B3B3B3;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 0 20px 10px 20px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .sidebar-item:hover {
+            background: rgba(29, 185, 84, 0.2);
+            border-left-color: #1DB954;
+        }
+        
+        .sidebar-item.active {
+            background: rgba(29, 185, 84, 0.3);
+            border-left-color: #1DB954;
+        }
+        
+        .sidebar-icon {
+            margin-right: 15px;
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+        
+        /* Бюро блеска - специальный стиль */
+        .bureau-item {
+            background: linear-gradient(135deg, #1DB954 0%, #191414 100%);
+            border-left: 3px solid #1DB954;
+            font-weight: bold;
+        }
+        
+        .bureau-item:hover {
+            background: linear-gradient(135deg, #1DB954 0%, #121212 100%);
+        }
+        
+        /* Основной контент */
+        .main-content {
+            margin-left: 240px;
+            flex: 1;
+            min-height: 100vh;
+        }
+        
+        /* Хедер */
+        .header {
+            background: #191414;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 40px;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1DB954;
+            text-decoration: none;
+        }
+        
+        .nav {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 8px 16px;
+            border-radius: 15px;
+        }
+        
+        .nav a:hover {
+            background: rgba(29, 185, 84, 0.2);
+            color: #1DB954;
+        }
+        
+        /* Основной контент */
+        .container {
+            padding: 20px 40px;
+        }
+        
+        /* Заголовок страницы */
+        .page-header {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .page-title {
+            color: #1DB954;
+            font-size: 32px;
+            font-weight: bold;
+        }
+        
+        .upload-btn {
+            background: linear-gradient(135deg, #1DB954 0%, #191414 100%);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(29, 185, 84, 0.3);
+        }
+        
+        /* Фильтры */
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            background: rgba(40, 40, 40, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #B3B3B3;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: rgba(29, 185, 84, 0.3);
+            color: #1DB954;
+            border-color: #1DB954;
+        }
+        
+        /* Сетка карт */
+        .maps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .map-card {
+            background: #191414;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .map-card:hover {
+            transform: translateY(-5px);
+            border-color: #1DB954;
+            box-shadow: 0 10px 25px rgba(29, 185, 84, 0.2);
+        }
+        
+        .map-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #1DB954 0%, #191414 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+        }
+        
+        .map-content {
+            padding: 20px;
+        }
+        
+        .map-title {
+            color: #1DB954;
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .map-description {
+            color: #B3B3B3;
+            font-size: 14px;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+        
+        .map-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .map-author {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .map-downloads {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .map-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            background: rgba(40, 40, 40, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .action-btn:hover {
+            background: rgba(29, 185, 84, 0.3);
+            border-color: #1DB954;
+        }
+        
+        .action-btn.download {
+            background: rgba(29, 185, 84, 0.2);
+            border-color: #1DB954;
+        }
+        
+        .action-btn.download:hover {
+            background: rgba(29, 185, 84, 0.4);
+        }
+        
+        /* Модальное окно загрузки */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+        }
+        
+        .modal-content {
+            background-color: #191414;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            border: 2px solid #1DB954;
+            position: relative;
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: #1DB954;
+        }
+        
+        .modal-title {
+            color: #1DB954;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #B3B3B3;
+            font-weight: bold;
+        }
+        
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            background: rgba(40, 40, 40, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            border-color: #1DB954;
+        }
+        
+        .form-textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .file-upload {
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .file-upload:hover {
+            border-color: #1DB954;
+            background: rgba(29, 185, 84, 0.1);
+        }
+        
+        .file-upload-icon {
+            font-size: 48px;
+            color: #1DB954;
+            margin-bottom: 10px;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #1DB954 0%, #191414 100%);
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(29, 185, 84, 0.3);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Уведомление */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #1DB954;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .notification.show {
+            opacity: 1;
+        }
+        
+        /* Футер */
+        .footer {
+            background: #191414;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px 0;
+            margin-top: 50px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+        
+        .footer-column h4 {
+            color: #1DB954;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #B3B3B3;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #1DB954;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #B3B3B3;
+            font-size: 14px;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+            
+            .sidebar-item span {
+                display: none;
+            }
+            
+            .sidebar-title {
+                display: none;
+            }
+            
+            .sidebar-icon {
+                margin-right: 0;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+            }
+            
+            .maps-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .footer-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .nav {
+                gap: 15px;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .maps-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filters {
+                justify-content: center;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Боковая панель -->
+    <div class="sidebar">
+        <!-- Бюро блеска - самый верх -->
+        <div class="sidebar-section">
+            <a href="https://deyniik.github.io/minecraft-wiki/Lera's%20Bureau" class="sidebar-item bureau-item">
+                <i class="fas fa-gem sidebar-icon"></i>
+                <span>Бюро блеска</span>
+            </a>
+        </div>
+
+        <!-- Основные разделы -->
+        <div class="sidebar-section">
+            <div class="sidebar-title">ОСНОВНОЕ</div>
+            <a href="https://deyniik.github.io/minecraft-wiki/" class="sidebar-item">
+                <i class="fas fa-home sidebar-icon"></i>
+                <span>Главная</span>
+            </a>
+            <a href="#" class="sidebar-item">
+                <i class="fas fa-fire sidebar-icon"></i>
+                <span>Популярное</span>
+            </a>
+            <a href="#" class="sidebar-item">
+                <i class="fas fa-compass sidebar-icon"></i>
+                <span>Обзор</span>
+            </a>
+        </div>
+
+        <!-- Разделы вики -->
+        <div class="sidebar-section">
+            <div class="sidebar-title">РАЗДЕЛЫ WIKI</div>
+            <a href="#" class="sidebar-item">
+                <i class="fas fa-newspaper sidebar-icon"></i>
+                <span>Новости</span>
+            </a>
+            <a href="#" class="sidebar-item">
+                <i class="fas fa-book sidebar-icon"></i>
+                <span>Гайды</span>
+            </a>
+            <a href="#" class="sidebar-item">
+                <i class="fas fa-cube sidebar-icon"></i>
+                <span>Блоки</span>
+            </a>
+            <a href="#" class="sidebar-item">
+                <i class="fas fa-ghost sidebar-icon"></i>
+                <span>Мобы</span>
+            </a>
+            <a href="#" class="sidebar-item">
+                <i class="fas fa-magic sidebar-icon"></i>
+                <span>Зельеварение</span>
+            </a>
+            <a href="#" class="sidebar-item">
+                <i class="fas fa-bolt sidebar-icon"></i>
+                <span>Редстоун</span>
+            </a>
+        </div>
+
+        <!-- Дополнительные разделы -->
+        <div class="sidebar-section">
+            <div class="sidebar-title">ДОПОЛНИТЕЛЬНО</div>
+            <a href="#" class="sidebar-item">
+                <i class="fas fa-download sidebar-icon"></i>
+                <span>Моды</span>
+            </a>
+            <a href="https://deyniik.github.io/minecraft-wiki/maps" class="sidebar-item active">
+                <i class="fas fa-map sidebar-icon"></i>
+                <span>Карты</span>
+            </a>
+            <a href="#" class="sidebar-item">
+                <i class="fas fa-palette sidebar-icon"></i>
+                <span>Текстурпаки</span>
+            </a>
+            <a href="#" class="sidebar-item">
+                <i class="fas fa-server sidebar-icon"></i>
+                <span>Серверы</span>
+            </a>
+            <a href="#" class="sidebar-item">
+                <i class="fas fa-video sidebar-icon"></i>
+                <span>Видео</span>
+            </a>
+        </div>
+
+        <!-- Сообщество -->
+        <div class="sidebar-section">
+            <div class="sidebar-title">СООБЩЕСТВО</div>
+            <a href="#" class="sidebar-item">
+                <i class="fas fa-users sidebar-icon"></i>
+                <span>Форум</span>
+            </a>
+            <a href="#" class="sidebar-item">
+                <i class="fab fa-discord sidebar-icon"></i>
+                <span>Дискорд</span>
+            </a>
+            <a href="#" class="sidebar-item">
+                <i class="fab fa-vk sidebar-icon"></i>
+                <span>ВКонтакте</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="main-content">
+        <!-- Хедер -->
+        <header class="header">
+            <div class="header-container">
+                <a href="https://deyniik.github.io/minecraft-wiki/" class="logo">MINECRAFT WIKI</a>
+                <nav class="nav">
+                    <a href="https://deyniik.github.io/minecraft-wiki/">Главная</a>
+                    <a href="#">Новости</a>
+                    <a href="#">Гайды</a>
+                    <a href="#">Моды</a>
+                    <a href="https://deyniik.github.io/minecraft-wiki/maps">Карты</a>
+                    <a href="#">Текстурпаки</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Основной контент -->
+        <div class="container">
+            <!-- Заголовок страницы -->
+            <div class="page-header">
+                <h1 class="page-title">Карты для Minecraft</h1>
+                <button class="upload-btn" id="uploadBtn">
+                    <i class="fas fa-plus"></i>
+                    Загрузить карту
+                </button>
+            </div>
+
+            <!-- Фильтры -->
+            <div class="filters">
+                <button class="filter-btn active" data-category="all">Все</button>
+                <button class="filter-btn" data-category="adventure">Приключения</button>
+                <button class="filter-btn" data-category="survival">Выживание</button>
+                <button class="filter-btn" data-category="parkour">Паркур</button>
+                <button class="filter-btn" data-category="puzzle">Головоломки</button>
+                <button class="filter-btn" data-category="minigame">Мини-игры</button>
+                <button class="filter-btn" data-category="ctm">CTM</button>
+                <button class="filter-btn" data-category="rpg">RPG</button>
+            </div>
+
+            <!-- Сетка карт -->
+            <div class="maps-grid" id="mapsGrid">
+                <!-- Карты будут загружаться через JavaScript -->
+            </div>
+
+            <!-- Секция популярных карт -->
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-title">Популярные карты</div>
+                </div>
+                <div class="maps-grid">
+                    <div class="map-card">
+                        <div class="map-image">
+                            <i class="fas fa-dungeon"></i>
+                        </div>
+                        <div class="map-content">
+                            <h3 class="map-title">SkyBlock Classic</h3>
+                            <p class="map-description">Классическая карта выживания на острове в небе. Постройте свой мир с нуля!</p>
+                            <div class="map-meta">
+                                <div class="map-author">
+                                    <i class="fas fa-user"></i>
+                                    <span>Noobcrew</span>
+                                </div>
+                                <div class="map-downloads">
+                                    <i class="fas fa-download"></i>
+                                    <span>2.4M</span>
+                                </div>
+                            </div>
+                            <div class="map-actions">
+                                <button class="action-btn download">
+                                    <i class="fas fa-download"></i> Скачать
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-info"></i> Подробнее
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="map-card">
+                        <div class="map-image">
+                            <i class="fas fa-puzzle-piece"></i>
+                        </div>
+                        <div class="map-content">
+                            <h3 class="map-title">The Heist</h3>
+                            <p class="map-description">Ограбление века! Проникните в неприступный банк и украдьте все сокровища.</p>
+                            <div class="map-meta">
+                                <div class="map-author">
+                                    <i class="fas fa-user"></i>
+                                    <span>Hypixel</span>
+                                </div>
+                                <div class="map-downloads">
+                                    <i class="fas fa-download"></i>
+                                    <span>1.8M</span>
+                                </div>
+                            </div>
+                            <div class="map-actions">
+                                <button class="action-btn download">
+                                    <i class="fas fa-download"></i> Скачать
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-info"></i> Подробнее
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="map-card">
+                        <div class="map-image">
+                            <i class="fas fa-running"></i>
+                        </div>
+                        <div class="map-content">
+                            <h3 class="map-title">Extreme Parkour</h3>
+                            <p class="map-description">Сложнейшие паркур трассы для настоящих мастеров движения.</p>
+                            <div class="map-meta">
+                                <div class="map-author">
+                                    <i class="fas fa-user"></i>
+                                    <span>ParkourPro</span>
+                                </div>
+                                <div class="map-downloads">
+                                    <i class="fas fa-download"></i>
+                                    <span>950K</span>
+                                </div>
+                            </div>
+                            <div class="map-actions">
+                                <button class="action-btn download">
+                                    <i class="fas fa-download"></i> Скачать
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-info"></i> Подробнее
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Футер -->
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-column">
+                    <h4>О проекте</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">О нас</a></li>
+                        <li><a href="#">Контакты</a></li>
+                        <li><a href="#">Реклама</a></li>
+                        <li><a href="#">Правила</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Разделы</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Новости</a></li>
+                        <li><a href="#">Статьи</a></li>
+                        <li><a href="#">Обзоры</a></li>
+                        <li><a href="#">Видео</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Сообщество</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Форум</a></li>
+                        <li><a href="#">Дискорд</a></li>
+                        <li><a href="#">ВКонтакте</a></li>
+                        <li><a href="#">Телеграм</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Помощь</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Техподдержка</a></li>
+                        <li><a href="#">Сообщить об ошибке</a></li>
+                        <li><a href="#">Предложения</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                © 2024 Minecraft Wiki. Все права защищены. Minecraft является товарным знаком Mojang Studios.
+            </div>
+        </footer>
+    </div>
+
+    <!-- Модальное окно загрузки -->
+    <div class="modal" id="uploadModal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2 class="modal-title">Загрузить карту</h2>
+            <form id="uploadForm">
+                <div class="form-group">
+                    <label class="form-label">Название карты</label>
+                    <input type="text" class="form-input" id="mapName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Описание</label>
+                    <textarea class="form-textarea" id="mapDescription" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Категория</label>
+                    <select class="form-select" id="mapCategory" required>
+                        <option value="">Выберите категорию</option>
+                        <option value="adventure">Приключения</option>
+                        <option value="survival">Выживание</option>
+                        <option value="parkour">Паркур</option>
+                        <option value="puzzle">Головоломки</option>
+                        <option value="minigame">Мини-игры</option>
+                        <option value="ctm">CTM</option>
+                        <option value="rpg">RPG</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Версия Minecraft</label>
+                    <input type="text" class="form-input" id="mapVersion" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Файл карты (.zip)</label>
+                    <div class="file-upload" id="fileUpload">
+                        <div class="file-upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <p>Перетащите файл сюда или нажмите для выбора</p>
+                        <input type="file" id="mapFile" accept=".zip" style="display: none;" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Скриншоты (до 5 изображений)</label>
+                    <div class="file-upload" id="screenshotsUpload">
+                        <div class="file-upload-icon">
+                            <i class="fas fa-images"></i>
+                        </div>
+                        <p>Перетащите скриншоты сюда или нажмите для выбора</p>
+                        <input type="file" id="screenshots" accept="image/*" multiple style="display: none;">
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <i class="fas fa-upload"></i> Загрузить карту
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Уведомление -->
+    <div class="notification" id="notification">Текст уведомления</div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
+
+    <script>
+        // Инициализация Firebase с теми же данными
+        const firebaseConfig = {
+            apiKey: "AIzaSyBk4nxZ1ldNQUCxsbgaeYTkm9stq0o9o2Q",
+            authDomain: "deygram-e4814.firebaseapp.com",
+            projectId: "deygram-e4814",
+            storageBucket: "deygram-e4814.firebasestorage.app",
+            messagingSenderId: "591207353726",
+            appId: "1:591207353726:web:d20f5e648d3daf86fcb72f"
+        };
+
+        // Инициализируем Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+
+        // Элементы DOM
+        const uploadBtn = document.getElementById('uploadBtn');
+        const uploadModal = document.getElementById('uploadModal');
+        const closeModal = document.getElementById('closeModal');
+        const uploadForm = document.getElementById('uploadForm');
+        const fileUpload = document.getElementById('fileUpload');
+        const mapFile = document.getElementById('mapFile');
+        const screenshotsUpload = document.getElementById('screenshotsUpload');
+        const screenshots = document.getElementById('screenshots');
+        const submitBtn = document.getElementById('submitBtn');
+        const notification = document.getElementById('notification');
+        const mapsGrid = document.getElementById('mapsGrid');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+
+        // API ключ для imgbb
+        const IMGBB_API_KEY = 'b16725851b31245c5927dda68e351446';
+
+        // Загрузка карт при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            loadMaps();
+            checkAuth();
+        });
+
+        // Проверка аутентификации
+        function checkAuth() {
+            auth.onAuthStateChanged((user) => {
+                if (!user) {
+                    uploadBtn.style.display = 'none';
+                } else {
+                    uploadBtn.style.display = 'flex';
+                }
+            });
+        }
+
+        // Загрузка карт из Firebase
+        function loadMaps(category = 'all') {
+            let query = db.collection('minecraftMaps').orderBy('createdAt', 'desc');
+            
+            if (category !== 'all') {
+                query = query.where('category', '==', category);
+            }
+            
+            query.get().then((snapshot) => {
+                mapsGrid.innerHTML = '';
+                
+                if (snapshot.empty) {
+                    mapsGrid.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #B3B3B3;">
+                            <i class="fas fa-map" style="font-size: 48px; margin-bottom: 15px;"></i>
+                            <h3>Пока нет загруженных карт</h3>
+                            <p>Будьте первым, кто загрузит карту!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                snapshot.forEach((doc) => {
+                    const map = doc.data();
+                    addMapToGrid(map, doc.id);
+                });
+            }).catch((error) => {
+                console.error('Ошибка загрузки карт:', error);
+                showNotification('Ошибка загрузки карт', 'error');
+            });
+        }
+
+        // Добавление карты в сетку
+        function addMapToGrid(map, id) {
+            const mapCard = document.createElement('div');
+            mapCard.className = 'map-card';
+            mapCard.innerHTML = `
+                <div class="map-image" style="background: ${map.imageUrl ? `url('${map.imageUrl}') center/cover` : 'linear-gradient(135deg, #1DB954 0%, #191414 100%)'};">
+                    ${!map.imageUrl ? `<i class="fas fa-map"></i>` : ''}
+                </div>
+                <div class="map-content">
+                    <h3 class="map-title">${map.name}</h3>
+                    <p class="map-description">${map.description}</p>
+                    <div class="map-meta">
+                        <div class="map-author">
+                            <i class="fas fa-user"></i>
+                            <span>${map.authorName || 'Аноним'}</span>
+                        </div>
+                        <div class="map-downloads">
+                            <i class="fas fa-download"></i>
+                            <span>${map.downloads || 0}</span>
+                        </div>
+                    </div>
+                    <div class="map-actions">
+                        <button class="action-btn download" onclick="downloadMap('${id}')">
+                            <i class="fas fa-download"></i> Скачать
+                        </button>
+                        <button class="action-btn" onclick="showMapDetails('${id}')">
+                            <i class="fas fa-info"></i> Подробнее
+                        </button>
+                    </div>
+                </div>
+            `;
+            mapsGrid.appendChild(mapCard);
+        }
+
+        // Скачивание карты
+        function downloadMap(mapId) {
+            const user = auth.currentUser;
+            if (!user) {
+                showNotification('Войдите в систему, чтобы скачивать карты', 'error');
+                return;
+            }
+
+            // Увеличиваем счетчик скачиваний
+            db.collection('minecraftMaps').doc(mapId).update({
+                downloads: firebase.firestore.FieldValue.increment(1)
+            });
+
+            // Получаем URL для скачивания
+            db.collection('minecraftMaps').doc(mapId).get().then((doc) => {
+                if (doc.exists) {
+                    const map = doc.data();
+                    if (map.downloadUrl) {
+                        window.open(map.downloadUrl, '_blank');
+                        showNotification('Начинается скачивание карты', 'success');
+                    } else {
+                        showNotification('Ссылка для скачивания не найдена', 'error');
+                    }
+                }
+            });
+        }
+
+        // Показать детали карты
+        function showMapDetails(mapId) {
+            // В будущем можно сделать модальное окно с деталями
+            showNotification('Функция в разработке', 'info');
+        }
+
+        // Загрузка изображения на imgbb
+        async function uploadToImgBB(file) {
+            const formData = new FormData();
+            formData.append('image', file);
+            
+            try {
+                const response = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    return data.data.url;
+                } else {
+                    throw new Error(data.error.message);
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки на imgbb:', error);
+                throw error;
+            }
+        }
+
+        // Загрузка файла в Firebase Storage
+        async function uploadToFirebase(file, path) {
+            const storageRef = storage.ref(path);
+            const snapshot = await storageRef.put(file);
+            const downloadUrl = await snapshot.ref.getDownloadURL();
+            return downloadUrl;
+        }
+
+        // Обработчик отправки формы
+        uploadForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const user = auth.currentUser;
+            if (!user) {
+                showNotification('Войдите в систему, чтобы загружать карты', 'error');
+                return;
+            }
+
+            const mapName = document.getElementById('mapName').value;
+            const mapDescription = document.getElementById('mapDescription').value;
+            const mapCategory = document.getElementById('mapCategory').value;
+            const mapVersion = document.getElementById('mapVersion').value;
+            const mapFile = document.getElementById('mapFile').files[0];
+
+            if (!mapFile) {
+                showNotification('Выберите файл карты', 'error');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Загрузка...';
+
+            try {
+                // Загружаем основное изображение если есть
+                let imageUrl = '';
+                const screenshotFiles = document.getElementById('screenshots').files;
+                if (screenshotFiles.length > 0) {
+                    imageUrl = await uploadToImgBB(screenshotFiles[0]);
+                }
+
+                // Загружаем файл карты в Firebase Storage
+                const fileName = `maps/${Date.now()}_${mapFile.name}`;
+                const downloadUrl = await uploadToFirebase(mapFile, fileName);
+
+                // Сохраняем данные в Firestore
+                await db.collection('minecraftMaps').add({
+                    name: mapName,
+                    description: mapDescription,
+                    category: mapCategory,
+                    version: mapVersion,
+                    imageUrl: imageUrl,
+                    downloadUrl: downloadUrl,
+                    authorId: user.uid,
+                    authorName: user.displayName || 'Аноним',
+                    downloads: 0,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    fileSize: mapFile.size,
+                    fileName: mapFile.name
+                });
+
+                showNotification('Карта успешно загружена!', 'success');
+                uploadModal.style.display = 'none';
+                uploadForm.reset();
+                loadMaps();
+
+            } catch (error) {
+                console.error('Ошибка загрузки:', error);
+                showNotification('Ошибка загрузки карты: ' + error.message, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-upload"></i> Загрузить карту';
+            }
+        });
+
+        // Обработчики модального окна
+        uploadBtn.addEventListener('click', function() {
+            const user = auth.currentUser;
+            if (!user) {
+                showNotification('Войдите в систему, чтобы загружать карты', 'error');
+                return;
+            }
+            uploadModal.style.display = 'block';
+        });
+
+        closeModal.addEventListener('click', function() {
+            uploadModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target === uploadModal) {
+                uploadModal.style.display = 'none';
+            }
+        });
+
+        // Обработчики загрузки файлов
+        fileUpload.addEventListener('click', function() {
+            mapFile.click();
+        });
+
+        fileUpload.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.style.borderColor = '#1DB954';
+            this.style.background = 'rgba(29, 185, 84, 0.1)';
+        });
+
+        fileUpload.addEventListener('dragleave', function() {
+            this.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+            this.style.background = 'transparent';
+        });
+
+        fileUpload.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+            this.style.background = 'transparent';
+            
+            if (e.dataTransfer.files.length > 0) {
+                mapFile.files = e.dataTransfer.files;
+                this.querySelector('p').textContent = `Выбран файл: ${e.dataTransfer.files[0].name}`;
+            }
+        });
+
+        mapFile.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                fileUpload.querySelector('p').textContent = `Выбран файл: ${this.files[0].name}`;
+            }
+        });
+
+        screenshotsUpload.addEventListener('click', function() {
+            screenshots.click();
+        });
+
+        screenshots.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                screenshotsUpload.querySelector('p').textContent = `Выбрано файлов: ${this.files.length}`;
+            }
+        });
+
+        // Обработчики фильтров
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                loadMaps(this.dataset.category);
+            });
+        });
+
+        // Функция показа уведомления
+        function showNotification(message, type = 'info') {
+            notification.textContent = message;
+            notification.className = 'notification';
+            
+            if (type === 'success') {
+                notification.style.background = '#1DB954';
+            } else if (type === 'error') {
+                notification.style.background = '#FF5722';
+            } else {
+                notification.style.background = '#2196F3';
+            }
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
