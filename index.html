@@ -23,68 +23,95 @@
             background: #1a1a1a url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAADElEQVQYV2NkYGD4DwACDAGfLzP+AAAAAElFTkSuQmCC') repeat;
             color: #fff;
             line-height: 1.4;
+            min-height: 100vh;
         }
 
         /* Контейнер в стиле интерфейса Майнкрафт */
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
             background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAADElEQVQYV2NkYGD4DwACDAGfLzP+AAAAAElFTkSuQmCC') #2d2d2d;
-            border: 4px solid #5a5a5a;
+            border: 8px solid;
             border-image: 
                 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFUlEQVQYV2NkYGD4z4AEjDAGKmAEAGj8A9fHfF5TAAAAAElFTkSuQmCC') 
-                4 stretch;
-            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+                8 stretch;
+            box-shadow: 0 0 30px rgba(0,0,0,0.9);
+            position: relative;
         }
 
-        /* Шапка в стиле таблички */
+        /* Эффект текстуры блоков */
+        .block-texture {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, transparent 49%, rgba(0,0,0,0.1) 50%, transparent 51%),
+                linear-gradient(-45deg, transparent 49%, rgba(0,0,0,0.1) 50%, transparent 51%);
+            background-size: 20px 20px;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.3;
+        }
+
+        /* Шапка в стиле таблички Майнкрафт */
         .header {
             background: #3a3a3a;
-            border: 3px solid #5a5a5a;
-            padding: 15px;
+            border: 6px solid #5a5a5a;
+            padding: 20px;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             position: relative;
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
         }
 
         .header h1 {
             color: #55FF55;
-            font-size: 2.5em;
-            text-shadow: 2px 2px 0 #000;
-            letter-spacing: 1px;
+            font-size: 3em;
+            text-shadow: 3px 3px 0 #000, 6px 6px 0 rgba(0,0,0,0.3);
+            letter-spacing: 3px;
+            margin-bottom: 10px;
         }
 
         .header p {
             color: #AAAAAA;
-            font-size: 1.2em;
+            font-size: 1.4em;
             margin-top: 5px;
+            text-shadow: 1px 1px 0 #000;
         }
 
         /* Навигация в стиле кнопок Майнкрафт */
         .nav {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin-bottom: 35px;
+            z-index: 2;
+            position: relative;
         }
 
         .nav-btn {
             background: #3a3a3a;
-            border: 3px solid #5a5a5a;
-            padding: 15px;
+            border: 4px solid #5a5a5a;
+            padding: 18px;
             text-align: center;
             color: #fff;
             text-decoration: none;
-            font-size: 1.1em;
+            font-size: 1.2em;
             transition: all 0.1s;
             cursor: pointer;
+            position: relative;
+            z-index: 2;
         }
 
         .nav-btn:hover {
             background: #4a4a4a;
             border-color: #6a6a6a;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
         }
 
         .nav-btn:active {
@@ -92,114 +119,172 @@
             background: #2a2a2a;
         }
 
-        /* Сетка категорий в стиле блоков */
-        .categories {
+        /* Основной контент */
+        .main-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 15px;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
             margin-bottom: 30px;
-        }
-
-        .category {
-            background: #3a3a3a;
-            border: 3px solid #5a5a5a;
-            padding: 20px;
+            z-index: 2;
             position: relative;
         }
 
-        .category::before {
-            content: '';
-            position: absolute;
-            top: 5px;
-            left: 5px;
-            right: 5px;
-            bottom: 5px;
-            border: 1px solid rgba(255,255,255,0.1);
-            pointer-events: none;
+        /* Боковые панели */
+        .side-panel {
+            background: #3a3a3a;
+            border: 4px solid #5a5a5a;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
         }
 
-        .category h3 {
+        .side-panel h2 {
             color: #FFAA00;
-            font-size: 1.4em;
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 0 #000;
-            border-bottom: 2px solid #5a5a5a;
-            padding-bottom: 5px;
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 0 #000;
+            border-bottom: 3px solid #5a5a5a;
+            padding-bottom: 8px;
         }
 
-        .category ul {
-            list-style: none;
+        /* Центральная панель с сеткой блоков */
+        .center-panel {
+            background: #3a3a3a;
+            border: 4px solid #5a5a5a;
+            padding: 25px;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+
+        .blocks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .block-item {
+            background: #4a4a4a;
+            border: 3px solid #5a5a5a;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .block-item:hover {
+            background: #5a5a5a;
+            border-color: #6a6a6a;
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .block-icon {
+            font-size: 2.5em;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .block-name {
+            font-size: 0.9em;
+            color: #fff;
+        }
+
+        /* Секции */
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section h3 {
+            color: #55FF55;
+            font-size: 1.4em;
+            margin-bottom: 12px;
+            text-shadow: 1px 1px 0 #000;
+            border-left: 4px solid #55FF55;
             padding-left: 10px;
         }
 
-        .category li {
-            margin: 8px 0;
-            padding-left: 15px;
-            position: relative;
+        .featured-list {
+            list-style: none;
         }
 
-        .category li::before {
-            content: '■';
-            color: #55FF55;
-            position: absolute;
-            left: 0;
+        .featured-list li {
+            margin: 10px 0;
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.05);
+            border-left: 3px solid #FFAA00;
+            transition: all 0.2s;
         }
 
-        .category a {
+        .featured-list li:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateX(5px);
+        }
+
+        .featured-list a {
             color: #55AAFF;
             text-decoration: none;
             transition: color 0.2s;
         }
 
-        .category a:hover {
+        .featured-list a:hover {
             color: #77CCFF;
             text-decoration: underline;
         }
 
-        /* Блок популярных модов */
+        /* Секция модов */
         .mods-section {
             background: #2a2a2a;
-            border: 3px solid #5a5a5a;
-            padding: 20px;
-            margin-bottom: 20px;
+            border: 4px solid #5a5a5a;
+            padding: 25px;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
         }
 
         .mods-section h2 {
             color: #FF5555;
-            font-size: 1.6em;
-            margin-bottom: 15px;
+            font-size: 1.8em;
+            margin-bottom: 20px;
             text-align: center;
-            text-shadow: 1px 1px 0 #000;
+            text-shadow: 2px 2px 0 #000;
         }
 
         .mods-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
         }
 
         .mod-card {
             background: #3a3a3a;
-            border: 2px solid #5a5a5a;
-            padding: 15px;
+            border: 3px solid #5a5a5a;
+            padding: 18px;
             transition: all 0.2s;
+            position: relative;
         }
 
         .mod-card:hover {
             border-color: #6a6a6a;
             background: #4a4a4a;
+            transform: translateY(-3px);
         }
 
         .mod-card h4 {
             color: #FFAA00;
-            margin-bottom: 5px;
-            font-size: 1.1em;
+            margin-bottom: 8px;
+            font-size: 1.2em;
         }
 
         .mod-card p {
             color: #AAAAAA;
-            font-size: 0.9em;
-            margin-bottom: 8px;
+            font-size: 0.95em;
+            margin-bottom: 10px;
+            line-height: 1.4;
         }
 
         .mod-tags {
@@ -211,7 +296,7 @@
         .mod-tag {
             background: #5a5a5a;
             color: #fff;
-            padding: 2px 6px;
+            padding: 3px 8px;
             font-size: 0.8em;
             border: 1px solid #6a6a6a;
         }
@@ -219,12 +304,15 @@
         /* Футер */
         .footer {
             background: #2a2a2a;
-            border: 3px solid #5a5a5a;
-            padding: 15px;
+            border: 4px solid #5a5a5a;
+            padding: 20px;
             text-align: center;
             color: #888;
-            font-size: 0.9em;
-            margin-top: 20px;
+            font-size: 0.95em;
+            margin-top: 30px;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
         }
 
         /* Анимации */
@@ -238,29 +326,94 @@
             animation: glow 2s ease-in-out infinite;
         }
 
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
         /* Адаптивность */
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .center-panel {
+                grid-column: 1 / -1;
+                order: -1;
+            }
+        }
+
         @media (max-width: 768px) {
             .container {
                 margin: 10px;
-                padding: 10px;
+                padding: 15px;
             }
             
             .nav {
                 grid-template-columns: 1fr;
             }
             
-            .categories {
+            .main-content {
                 grid-template-columns: 1fr;
             }
             
             .header h1 {
-                font-size: 2em;
+                font-size: 2.2em;
             }
+            
+            .blocks-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
+            
+            .mods-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Дополнительные стили для уютной атмосферы */
+        .welcome-message {
+            background: rgba(85, 255, 85, 0.1);
+            border: 2px solid #55FF55;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            border-radius: 0;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            background: rgba(255, 170, 0, 0.1);
+            border: 2px solid #FFAA00;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5em;
+            color: #FFAA00;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.8em;
+            color: #AAAAAA;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="block-texture"></div>
+        
         <!-- Шапка -->
         <header class="header">
             <h1 class="glowing">⛏️ MINECRAFT WIKI</h1>
@@ -271,61 +424,130 @@
         <nav class="nav">
             <a href="#" class="nav-btn">🏠 Главная</a>
             <a href="guides/" class="nav-btn">📚 Гайды</a>
-            <a href="lore/" class="nav-btn">📖 Лор</a>
+            <a href="blocks/" class="nav-btn">🧱 Блоки</a>
+            <a href="mobs/" class="nav-btn">👹 Мобы</a>
             <a href="mods/" class="nav-btn">⚡ Моды</a>
             <a href="secrets/" class="nav-btn">🔮 Секреты</a>
-            <a href="community/" class="nav-btn">👥 Сообщество</a>
         </nav>
 
-        <!-- Основные категории -->
-        <div class="categories">
-            <!-- Геймплей -->
-            <div class="category">
-                <h3>🎮 ГЕЙМПЛЕЙ</h3>
-                <ul>
-                    <li><a href="workbench/">Как сделать верстак</a></li>
-                    <li><a href="furnace/">Крафт и использование печи</a></li>
-                    <li><a href="first-night/">Выживание в первую ночь</a></li>
-                    <li><a href="enchanting/">Зачарование предметов</a></li>
-                    <li><a href="redstone/">Основы редстоуна</a></li>
-                    <li><a href="breeding/">Разведение животных</a></li>
-                </ul>
+        <!-- Основной контент -->
+        <div class="main-content">
+            <!-- Левая панель -->
+            <div class="side-panel">
+                <h2>🎮 Быстрый доступ</h2>
+                <div class="section">
+                    <h3>Популярные гайды</h3>
+                    <ul class="featured-list">
+                        <li><a href="workbench/">Как сделать верстак</a></li>
+                        <li><a href="furnace/">Крафт печи</a></li>
+                        <li><a href="first-night/">Выживание в первую ночь</a></li>
+                        <li><a href="enchanting/">Зачарование</a></li>
+                        <li><a href="nether/">Путешествие в Ад</a></li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <h3>Новые статьи</h3>
+                    <ul class="featured-list">
+                        <li><a href="ancient-city/">Древний город</a></li>
+                        <li><a href="warden/">Страж</a></li>
+                        <li><a href="allay/">Аллея</a></li>
+                        <li><a href="mangrove/">Мангровые болота</a></li>
+                    </ul>
+                </div>
             </div>
 
-            <!-- Лор -->
-            <div class="category">
-                <h3>📖 ЛОР И ИСТОРИЯ</h3>
-                <ul>
-                    <li><a href="ancient-builders/">Древние строители</a></li>
-                    <li><a href="end-cities/">Таинства Энда</a></li>
-                    <li><a href="herobrine/">Легенда о Херобрине</a></li>
-                    <li><a href="villagers/">История жителей</a></li>
-                    <li><a href="nether-lore/">Тайны Нижнего мира</a></li>
-                    <li><a href="mob-legends/">Легенды о мобах</a></li>
-                </ul>
+            <!-- Центральная панель -->
+            <div class="center-panel">
+                <div class="welcome-message">
+                    <h2>Добро пожаловать в Minecraft Wiki!</h2>
+                    <p>Самая полная энциклопедия по вселенной Майнкрафт</p>
+                </div>
+
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number">250+</div>
+                        <div class="stat-label">Гайдов</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">800+</div>
+                        <div class="stat-label">Блоков</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">Мобов</div>
+                    </div>
+                </div>
+
+                <h2>🧱 Основные блоки</h2>
+                <div class="blocks-grid">
+                    <div class="block-item">
+                        <span class="block-icon">🪵</span>
+                        <div class="block-name">Дерево</div>
+                    </div>
+                    <div class="block-item">
+                        <span class="block-icon">🪨</span>
+                        <div class="block-name">Камень</div>
+                    </div>
+                    <div class="block-item">
+                        <span class="block-icon">⭐</span>
+                        <div class="block-name">Руда</div>
+                    </div>
+                    <div class="block-item">
+                        <span class="block-icon">🧱</span>
+                        <div class="block-name">Булыжник</div>
+                    </div>
+                    <div class="block-item">
+                        <span class="block-icon">🔥</span>
+                        <div class="block-name">Печь</div>
+                    </div>
+                    <div class="block-item">
+                        <span class="block-icon">🛏️</span>
+                        <div class="block-name">Кровать</div>
+                    </div>
+                    <div class="block-item">
+                        <span class="block-icon">🧰</span>
+                        <div class="block-name">Верстак</div>
+                    </div>
+                    <div class="block-item">
+                        <span class="block-icon">💎</span>
+                        <div class="block-name">Алмаз</div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Строительство -->
-            <div class="category">
-                <h3>🏗️ СТРОИТЕЛЬСТВО</h3>
-                <ul>
-                    <li><a href="starter-house/">Первый дом</a></li>
-                    <li><a href="medieval-build/">Средневековый замок</a></li>
-                    <li><a href="modern-house/">Современный дом</a></li>
-                    <li><a href="automatic-farms/">Автоматические фермы</a></li>
-                    <li><a href="decorations/">Декорации и детали</a></li>
-                    <li><a href="underground-base/">Подземная база</a></li>
-                </ul>
+            <!-- Правая панель -->
+            <div class="side-panel">
+                <h2>📖 Лор и история</h2>
+                <div class="section">
+                    <h3>Легенды</h3>
+                    <ul class="featured-list">
+                        <li><a href="ancient-builders/">Древние строители</a></li>
+                        <li><a href="end-cities/">Города Края</a></li>
+                        <li><a href="herobrine/">Херобрин</a></li>
+                        <li><a href="villagers/">История жителей</a></li>
+                    </ul>
+                </div>
+                
+                <div class="section">
+                    <h3>Биомы</h3>
+                    <ul class="featured-list">
+                        <li><a href="plains/">Равнины</a></li>
+                        <li><a href="forest/">Лес</a></li>
+                        <li><a href="desert/">Пустыня</a></li>
+                        <li><a href="ocean/">Океан</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
 
-        <!-- Популярные моды -->
+        <!-- Секция модов -->
         <section class="mods-section">
-            <h2>⚡ ПОПУЛЯРНЫЕ МОДЫ</h2>
+            <h2>⚡ Популярные моды</h2>
             <div class="mods-grid">
                 <div class="mod-card">
                     <h4>Create</h4>
-                    <p>Сложные механизмы и автоматизация</p>
+                    <p>Сложные механизмы и автоматизация для технических игроков</p>
                     <div class="mod-tags">
                         <span class="mod-tag">Техника</span>
                         <span class="mod-tag">1.16+</span>
@@ -333,7 +555,7 @@
                 </div>
                 <div class="mod-card">
                     <h4>Thaumcraft</h4>
-                    <p>Система магии и исследований</p>
+                    <p>Система магии и исследований для любителей волшебства</p>
                     <div class="mod-tags">
                         <span class="mod-tag">Магия</span>
                         <span class="mod-tag">1.12.2</span>
@@ -341,7 +563,7 @@
                 </div>
                 <div class="mod-card">
                     <h4>JourneyMap</h4>
-                    <p>Карта в реальном времени</p>
+                    <p>Карта в реальном времени с метками и навигацией</p>
                     <div class="mod-tags">
                         <span class="mod-tag">Утилиты</span>
                         <span class="mod-tag">1.8+</span>
@@ -349,7 +571,7 @@
                 </div>
                 <div class="mod-card">
                     <h4>Tinkers' Construct</h4>
-                    <p>Кастомизация инструментов</p>
+                    <p>Расширенная система создания и улучшения инструментов</p>
                     <div class="mod-tags">
                         <span class="mod-tag">Крафт</span>
                         <span class="mod-tag">1.7.10+</span>
@@ -361,32 +583,63 @@
         <!-- Футер -->
         <footer class="footer">
             <p>Minecraft Wiki © 2024 | Неофициальный фанатский проект</p>
-            <p>Minecraft является товарным знаком Mojang Studios</p>
+            <p>Minecraft является товарным знаком Mojang Studios | Все права защищены</p>
+            <p style="margin-top: 10px; font-size: 0.8em; color: #666;">Сделано с ❤️ для сообщества Майнкрафт</p>
         </footer>
     </div>
 
     <script>
-        // Простой скрипт для интерактивности
+        // Простые интерактивные эффекты
         document.addEventListener('DOMContentLoaded', function() {
-            // Добавляем клик по карточкам модов
-            const modCards = document.querySelectorAll('.mod-card');
-            modCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    const modName = this.querySelector('h4').textContent;
-                    alert('Переход к моде: ' + modName);
-                    // В реальном проекте: window.location.href = 'mods/' + modName.toLowerCase();
+            // Анимация блоков при наведении
+            const blockItems = document.querySelectorAll('.block-item');
+            blockItems.forEach(block => {
+                block.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px) scale(1.05)';
+                });
+                
+                block.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
                 });
             });
 
-            // Анимация для кнопок навигации
+            // Анимация кнопок навигации
             const navBtns = document.querySelectorAll('.nav-btn');
             navBtns.forEach(btn => {
                 btn.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-2px)';
+                    this.style.transform = 'translateY(-3px)';
                 });
+                
                 btn.addEventListener('mouseleave', function() {
                     this.style.transform = 'translateY(0)';
                 });
+            });
+
+            // Случайное мерцание заголовка
+            const title = document.querySelector('.header h1');
+            setInterval(() => {
+                if (Math.random() < 0.1) {
+                    title.classList.add('glowing');
+                    setTimeout(() => {
+                        title.classList.remove('glowing');
+                    }, 2000);
+                }
+            }, 5000);
+
+            // Простой счетчик посещений
+            let visitCount = localStorage.getItem('minecraftWikiVisits') || 0;
+            visitCount = parseInt(visitCount) + 1;
+            localStorage.setItem('minecraftWikiVisits', visitCount);
+            
+            // Можно добавить отображение счетчика где-нибудь
+            console.log(`Количество посещений: ${visitCount}`);
+        });
+
+        // Эффект пиксельного наведения для всех интерактивных элементов
+        const interactiveElements = document.querySelectorAll('.nav-btn, .block-item, .mod-card, .featured-list li');
+        interactiveElements.forEach(element => {
+            element.addEventListener('mouseenter', function() {
+                this.style.imageRendering = 'pixelated';
             });
         });
     </script>
