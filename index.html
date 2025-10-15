@@ -7,37 +7,22 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⛏️</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Мета-теги для красивого шаринга -->
-    <meta property="og:title" content="Minecraft Wiki">
-    <meta property="og:description" content="Полная энциклопедия по Майнкрафту: гайды, лор, моды и секреты">
-    <meta property="og:image" content="https://i.pinimg.com/originals/05/cf/1b/05cf1b97379bb751d2bf03b55ee16c5e.gif">
-    <meta property="og:url" content="https://deyniik.github.io/minecraft-wiki/">
-    <meta name="twitter:card" content="summary_large_image">
-    
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Courier New', monospace;
-            image-rendering: pixelated;
         }
         
         body {
             background-color: #121212;
             color: #FFFFFF;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            padding: 12px;
             overflow-x: hidden;
-            background-image: 
-                linear-gradient(rgba(18, 16, 16, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(18, 16, 16, 0.1) 1px, transparent 1px);
-            background-size: 20px 20px;
         }
 
-        /* Экран загрузки в стиле Майнкрафт */
+        /* Экран загрузки */
         .loading-screen {
             position: fixed;
             top: 0;
@@ -55,82 +40,73 @@
         .loading-gif {
             width: 200px;
             height: 200px;
-            background: url('https://i.pinimg.com/originals/05/cf/1b/05cf1b97379bb751d2bf03b55ee16c5e.gif') center/cover no-repeat;
-            image-rendering: pixelated;
+            background: url('https://i.pinimg.com/originals/7d/04/0e/7d040e94931427709008aaeda14db9c8.gif') center/cover no-repeat;
         }
         
         .loading-text {
             margin-top: 20px;
-            font-size: 3rem;
-            font-weight: bold;
-            color: #55FF55;
-            text-shadow: 3px 3px 0 #000, 6px 6px 0 rgba(0,0,0,0.3);
-            letter-spacing: 2px;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #1DB954;
+            text-shadow: 0 0 10px rgba(29, 185, 84, 0.7);
+            letter-spacing: 1px;
             animation: flicker 1.5s infinite alternate;
         }
         
         @keyframes flicker {
             0%, 19%, 21%, 23%, 25%, 27%, 29%, 31%, 33%, 35%, 37%, 39%, 80%, 100% {
                 opacity: 1;
-                text-shadow: 3px 3px 0 #000, 6px 6px 0 rgba(0,0,0,0.3);
+                text-shadow: 0 0 10px rgba(29, 185, 84, 0.7), 0 0 20px rgba(29, 185, 84, 0.5);
             }
             20%, 22%, 24%, 26%, 28%, 30%, 32%, 34%, 36%, 38%, 40%, 60% {
                 opacity: 0.6;
-                text-shadow: 2px 2px 0 #000;
+                text-shadow: 0 0 5px rgba(29, 185, 84, 0.5);
             }
         }
         
         .container {
             width: 100%;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            max-width: 1400px;
-            margin: 0 auto;
+            min-height: 100vh;
             display: none;
+            flex-direction: column;
         }
         
-        /* Шапка в стиле Майнкрафт */
+        /* Шапка - ТОЧНО КАК В DEYNIK RADIO */
         header {
-            background: #2d2d2d;
-            border: 6px solid #5a5a5a;
-            padding: 15px 20px;
-            margin-bottom: 20px;
+            background: rgba(25, 20, 20, 0.95);
+            padding: 15px 5%;
+            margin-bottom: 0;
             position: relative;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .header-left {
             display: flex;
             align-items: center;
             gap: 15px;
-            flex: 1;
-            justify-content: flex-start;
         }
         
         .header-center {
-            flex: 2;
             display: flex;
             justify-content: center;
+            flex: 1;
         }
         
         .header-right {
             display: flex;
             align-items: center;
             gap: 12px;
-            flex: 1;
-            justify-content: flex-end;
         }
         
         .theme-switcher {
-            background: rgba(40, 40, 40, 0.9);
-            border: 3px solid #5a5a5a;
-            color: #55FF55;
+            background: rgba(40, 40, 40, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
             padding: 8px 15px;
-            border-radius: 0;
+            border-radius: 15px;
             cursor: pointer;
             font-size: 0.9rem;
             transition: all 0.3s ease;
@@ -140,106 +116,74 @@
         }
         
         .theme-switcher:hover {
-            background: rgba(85, 255, 85, 0.2);
-            border-color: #55FF55;
-            transform: translateY(-2px);
+            background: rgba(29, 185, 84, 0.3);
+            transform: scale(1.05);
         }
 
-        .search-btn {
-            background: rgba(40, 40, 40, 0.9);
-            border: 3px solid #5a5a5a;
-            color: #55FF55;
-            padding: 8px 15px;
-            border-radius: 0;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .search-btn:hover {
-            background: rgba(85, 255, 85, 0.2);
-            border-color: #55FF55;
-            transform: translateY(-2px);
-        }
-        
         h1 {
-            font-size: 2.5rem;
-            color: #55FF55;
-            text-shadow: 3px 3px 0 #000, 6px 6px 0 rgba(0,0,0,0.3);
-            letter-spacing: 3px;
-            margin-bottom: 5px;
+            font-size: 2.2rem;
+            color: #1DB954;
+            text-shadow: 0 0 10px rgba(29, 185, 84, 0.5);
+            letter-spacing: 2px;
         }
         
-        .content {
+        /* Основной контент - РАСШИРЕН НА ВСЮ ШИРИНУ */
+        .main-content {
             display: flex;
-            justify-content: space-between;
-            align-items: stretch;
             flex: 1;
-            gap: 20px;
-            margin-bottom: 15px;
-            overflow: hidden;
+            gap: 0;
+            height: calc(100vh - 80px);
         }
         
-        /* Боковые панели в стиле блоков */
+        /* Левая панель - ТОЧНО КАК В RADIO */
         .side-panel {
-            flex: 1;
-            background: #2d2d2d;
-            border: 6px solid #5a5a5a;
+            width: 300px;
+            background: #191414;
             padding: 20px;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-            min-width: 250px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .left-panel {
-            text-align: left;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-y: auto;
         }
         
         .categories-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 3px solid #5a5a5a;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        /* КАТЕГОРИИ В СТИЛЕ МАЙНКРАФТ */
+        /* КАТЕГОРИИ - ТОЧНЫЙ СТИЛЬ RADIO */
         .categories-container {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             margin-bottom: 20px;
             flex-wrap: wrap;
         }
         
         .category-btn {
-            background: rgba(40, 40, 40, 0.9);
-            border: 3px solid #5a5a5a;
-            color: #AAAAAA;
-            padding: 8px 15px;
-            border-radius: 0;
+            background: rgba(40, 40, 40, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #B3B3B3;
+            padding: 6px 12px;
+            border-radius: 15px;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             transition: all 0.3s ease;
             white-space: nowrap;
         }
         
         .category-btn:hover {
-            background: rgba(85, 255, 85, 0.2);
-            color: #55FF55;
-            border-color: #55FF55;
+            background: rgba(29, 185, 84, 0.2);
+            color: white;
         }
         
         .category-btn.active {
-            background: rgba(85, 255, 85, 0.3);
-            color: #55FF55;
-            border-color: #55FF55;
+            background: rgba(29, 185, 84, 0.3);
+            color: #1DB954;
+            border-color: #1DB954;
         }
         
         .wiki-list {
@@ -249,101 +193,93 @@
             flex-direction: column;
             overflow-y: auto;
             scrollbar-width: thin;
-            scrollbar-color: rgba(85, 255, 85, 0.3) #2d2d2d;
-            padding-right: 5px;
-            margin-bottom: 10px;
+            scrollbar-color: rgba(29, 185, 84, 0.3) #191414;
         }
         
         .wiki-list::-webkit-scrollbar {
-            width: 8px;
+            width: 5px;
         }
         
         .wiki-list::-webkit-scrollbar-track {
-            background: #2d2d2d;
+            background: #191414;
         }
         
         .wiki-list::-webkit-scrollbar-thumb {
-            background-color: rgba(85, 255, 85, 0.3);
-            border-radius: 0;
+            background-color: rgba(29, 185, 84, 0.3);
+            border-radius: 5px;
         }
         
         .wiki-list li {
             padding: 12px 15px;
-            margin: 5px 0;
-            background: rgba(40, 40, 40, 0.9);
-            border-radius: 0;
+            margin: 4px 0;
+            background: rgba(40, 40, 40, 0.8);
+            border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s ease;
-            border-left: 4px solid #55FF55;
-            font-size: 1rem;
+            border-left: 3px solid #1DB954;
+            font-size: 0.9rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
         
         .wiki-list li:hover {
-            background: rgba(85, 255, 85, 0.2);
-            transform: translateX(5px);
-            border-left-color: #FFAA00;
+            background: rgba(29, 185, 84, 0.2);
+            transform: translateX(-3px);
         }
         
         .wiki-list li.active {
-            background: rgba(85, 255, 85, 0.3);
-            border-left: 4px solid #FFAA00;
-            box-shadow: 0 0 10px rgba(85, 255, 85, 0.3);
+            background: rgba(29, 185, 84, 0.3);
+            border-left: 3px solid #1DB954;
+            box-shadow: 0 0 10px rgba(29, 185, 84, 0.3);
         }
         
         .article-icon {
-            margin-right: 12px;
-            font-size: 1.2rem;
-            width: 25px;
+            margin-right: 10px;
+            font-size: 1rem;
+            width: 20px;
             text-align: center;
         }
         
         .random-article-btn {
-            background: rgba(85, 255, 85, 0.2);
-            border: 3px solid #55FF55;
-            color: #55FF55;
+            background: rgba(29, 185, 84, 0.2);
+            border: 1px solid rgba(29, 185, 84, 0.5);
+            color: #1DB954;
             padding: 12px;
-            border-radius: 0;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
             text-align: center;
             margin-top: 10px;
-            font-size: 1rem;
+            font-size: 0.9rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            height: 45px;
+            gap: 8px;
         }
         
         .random-article-btn:hover {
-            background: rgba(85, 255, 85, 0.3);
-            box-shadow: 0 0 15px rgba(85, 255, 85, 0.4);
+            background: rgba(29, 185, 84, 0.3);
+            box-shadow: 0 0 10px rgba(29, 185, 84, 0.3);
             transform: translateY(-2px);
         }
         
-        /* Центральная панель с контентом */
-        .content-panel {
-            flex: 3;
+        /* Центральная панель - РАСШИРЕНА НА ВСЮ ШИРИНУ */
+        .content-area {
+            flex: 1;
+            background: #191414;
             display: flex;
             flex-direction: column;
-            background: #2d2d2d;
-            border: 6px solid #5a5a5a;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
             position: relative;
+            overflow: hidden;
         }
         
-        .content-placeholder {
-            width: 100%;
-            height: 100%;
-            background: url('https://i.pinimg.com/originals/05/cf/1b/05cf1b97379bb751d2bf03b55ee16c5e.gif') center/cover no-repeat;
+        .content-display {
+            flex: 1;
+            background: url('https://i.pinimg.com/originals/7d/04/0e/7d040e94931427709008aaeda14db9c8.gif') center/cover no-repeat;
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: all 0.5s ease;
             position: relative;
         }
         
@@ -353,7 +289,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.85);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -363,45 +299,47 @@
         }
         
         .content-title {
-            font-size: 2.5rem;
-            color: #55FF55;
+            font-size: 3rem;
+            color: #1DB954;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 0 #000;
+            text-shadow: 0 0 20px rgba(29, 185, 84, 0.5);
         }
         
         .content-description {
-            font-size: 1.2rem;
-            color: #AAAAAA;
-            max-width: 600px;
+            font-size: 1.3rem;
+            color: #B3B3B3;
+            max-width: 800px;
             line-height: 1.6;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
         
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
-            margin-top: 30px;
+            margin-top: 40px;
         }
         
         .stat-item {
-            background: rgba(85, 255, 85, 0.1);
-            border: 3px solid #55FF55;
-            padding: 20px;
+            background: rgba(29, 185, 84, 0.1);
+            border: 1px solid rgba(29, 185, 84, 0.3);
+            padding: 25px;
+            border-radius: 10px;
             text-align: center;
+            backdrop-filter: blur(10px);
         }
         
         .stat-number {
-            font-size: 2rem;
-            color: #FFAA00;
+            font-size: 2.5rem;
+            color: #1DB954;
             font-weight: bold;
             display: block;
         }
         
         .stat-label {
-            font-size: 0.9rem;
-            color: #AAAAAA;
-            margin-top: 5px;
+            font-size: 1rem;
+            color: #B3B3B3;
+            margin-top: 8px;
         }
         
         .now-playing {
@@ -409,15 +347,15 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.7);
             padding: 15px;
             text-align: center;
-            border-top: 3px solid #55FF55;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .now-playing h3 {
             font-size: 1.1rem;
-            color: #55FF55;
+            color: #1DB954;
             margin-bottom: 5px;
         }
         
@@ -426,16 +364,15 @@
             color: #B3B3B3;
         }
         
-        /* Правая панель с дополнительной информацией */
-        .side-panel {
-            flex: 1;
-            background: #2d2d2d;
-            border: 6px solid #5a5a5a;
+        /* Правая панель - ТОЧНО КАК В RADIO */
+        .info-panel {
+            width: 300px;
+            background: #191414;
             padding: 20px;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-            min-width: 250px;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-y: auto;
         }
         
         .info-section {
@@ -443,11 +380,11 @@
         }
         
         .info-section h3 {
-            color: #FFAA00;
-            font-size: 1.3rem;
+            color: #1DB954;
+            font-size: 1.1rem;
             margin-bottom: 15px;
             padding-bottom: 8px;
-            border-bottom: 2px solid #5a5a5a;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .info-list {
@@ -455,33 +392,35 @@
         }
         
         .info-list li {
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .info-list li:hover {
+            background: rgba(29, 185, 84, 0.1);
+            transform: translateX(5px);
         }
         
         .info-list a {
-            color: #55AAFF;
+            color: #B3B3B3;
             text-decoration: none;
             transition: color 0.2s;
+            display: block;
         }
         
         .info-list a:hover {
-            color: #77CCFF;
-            text-decoration: underline;
+            color: #1DB954;
         }
         
-        /* Панель управления в стиле Майнкрафт */
+        /* Панель управления - ТОЧНАЯ КОПИЯ RADIO */
         .control-panel {
-            background: #2d2d2d;
-            border: 6px solid #5a5a5a;
+            background: #191414;
             padding: 20px;
-            height: auto;
-            flex-shrink: 0;
-            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
             gap: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
         }
         
         .control-top {
@@ -499,15 +438,14 @@
         .control-icon {
             width: 50px;
             height: 50px;
-            background: linear-gradient(135deg, #55FF55 0%, #2d2d2d 100%);
+            background: linear-gradient(135deg, #1DB954 0%, #191414 100%);
+            border-radius: 50%;
             margin-right: 15px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.5rem;
-            box-shadow: 0 0 10px rgba(85, 255, 85, 0.5);
-            transition: transform 0.3s ease;
-            border: 3px solid #5a5a5a;
+            font-size: 1.3rem;
+            box-shadow: 0 0 10px rgba(29, 185, 84, 0.5);
         }
         
         .article-text {
@@ -515,14 +453,14 @@
         }
         
         .article-text h2 {
-            font-size: 1.4rem;
-            margin-bottom: 5px;
-            color: #55FF55;
+            font-size: 1.3rem;
+            margin-bottom: 4px;
+            color: #1DB954;
         }
         
         .article-text p {
             color: #B3B3B3;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
         
         .control-center {
@@ -530,7 +468,7 @@
             align-items: center;
             justify-content: center;
             flex: 1;
-            gap: 12px;
+            gap: 15px;
         }
         
         .control-buttons {
@@ -542,58 +480,45 @@
         }
         
         .btn {
-            background: rgba(50, 50, 50, 0.9);
-            border: 3px solid #5a5a5a;
+            background: rgba(50, 50, 50, 0.8);
+            border: none;
             color: white;
             width: 45px;
             height: 45px;
-            font-size: 1.2rem;
+            border-radius: 50%;
+            font-size: 1.1rem;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             justify-content: center;
             align-items: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
         }
         
         .btn:hover {
-            background: rgba(85, 255, 85, 0.3);
-            border-color: #55FF55;
+            background: rgba(29, 185, 84, 0.4);
             transform: scale(1.05);
         }
         
         .btn-main {
-            background: linear-gradient(135deg, #55FF55 0%, #2d2d2d 100%);
+            background: linear-gradient(135deg, #1DB954 0%, #191414 100%);
             width: 55px;
             height: 55px;
-            font-size: 1.4rem;
-            box-shadow: 0 0 12px rgba(85, 255, 85, 0.6);
-            border: 3px solid #55FF55;
+            font-size: 1.3rem;
+            box-shadow: 0 0 12px rgba(29, 185, 84, 0.6);
         }
         
         .btn-main:hover {
-            box-shadow: 0 0 16px rgba(85, 255, 85, 0.8);
+            box-shadow: 0 0 16px rgba(29, 185, 84, 0.8);
         }
 
         .btn-like {
+            position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 2px;
-            background: rgba(50, 50, 50, 0.9);
-            border: 3px solid #5a5a5a;
-            color: white;
-            width: 45px;
-            height: 45px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-like:hover {
-            background: rgba(85, 255, 85, 0.3);
-            border-color: #55FF55;
-            transform: scale(1.05);
         }
         
         .control-bottom {
@@ -608,46 +533,33 @@
             align-items: center;
             gap: 12px;
             width: 100%;
-            max-width: 400px;
+            max-width: 500px;
         }
         
         .progress-icon {
-            font-size: 1.2rem;
-            color: #55FF55;
-            width: 25px;
+            font-size: 1.1rem;
+            color: #1DB954;
+            width: 20px;
             text-align: center;
         }
         
         .progress-slider {
             -webkit-appearance: none;
             width: 100%;
-            height: 8px;
-            background: rgba(80, 80, 80, 0.8);
-            border-radius: 0;
+            height: 4px;
+            background: rgba(80, 80, 80, 0.7);
+            border-radius: 5px;
             outline: none;
             cursor: pointer;
-            border: 2px solid #5a5a5a;
-        }
-        
-        .progress-slider:hover {
-            background: rgba(100, 100, 100, 0.9);
         }
         
         .progress-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 18px;
-            height: 18px;
-            background: #55FF55;
-            cursor: pointer;
-            border: 2px solid white;
-            box-shadow: 0 0 4px rgba(0,0,0,0.5);
-        }
-        
-        .progress-slider::-moz-range-thumb {
-            width: 18px;
-            height: 18px;
-            background: #55FF55;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #1DB954;
             cursor: pointer;
             border: 2px solid white;
             box-shadow: 0 0 4px rgba(0,0,0,0.5);
@@ -658,14 +570,13 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: #55FF55;
-            color: #000;
+            background: #1DB954;
+            color: white;
             padding: 12px 18px;
+            border-radius: 8px;
             z-index: 1000;
             opacity: 0;
             transition: opacity 0.3s ease;
-            border: 3px solid #5a5a5a;
-            font-weight: bold;
         }
         
         .notification.show {
@@ -674,65 +585,42 @@
 
         /* Адаптивность */
         @media (max-width: 1200px) {
-            .content {
-                flex-direction: column;
+            .info-panel {
+                display: none;
             }
             
             .side-panel {
-                width: 100%;
-                height: 300px;
-                margin-bottom: 15px;
+                width: 250px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .side-panel {
+                display: none;
             }
             
-            .content-panel {
-                width: 100%;
-                height: 400px;
-                order: -1;
-            }
-            
-            .control-panel {
-                flex-direction: column;
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
                 gap: 15px;
-                padding: 15px;
+            }
+            
+            .content-title {
+                font-size: 2rem;
+            }
+            
+            .content-description {
+                font-size: 1rem;
+                padding: 0 20px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
             }
             
             .control-top {
                 flex-direction: column;
                 gap: 15px;
             }
-            
-            .progress-control {
-                width: 100%;
-                max-width: 300px;
-            }
-            
-            .categories-container {
-                overflow-x: auto;
-                padding-bottom: 5px;
-            }
-            
-            .header-center {
-                flex: 1;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-        }
-
-        /* Эффект CRT для ретро-стиля */
-        .crt-effect::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0.1) 50%, rgba(0, 0, 0, 0.25) 50%);
-            background-size: 100% 4px;
-            pointer-events: none;
-            z-index: 2;
-            opacity: 0.1;
         }
     </style>
 </head>
@@ -740,32 +628,34 @@
     <!-- Экран загрузки -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-gif"></div>
-        <div class="loading-text">MINECRAFT WIKI</div>
+        <div class="loading-text">Minecraft Wiki</div>
     </div>
     
     <div class="container" id="mainContainer">
+        <!-- Шапка - ТОЧНАЯ КОПИЯ RADIO -->
         <header>
             <div class="header-left">
-                <div class="search-btn">
+                <div class="theme-switcher">
                     <i class="fas fa-search"></i> Поиск
                 </div>
             </div>
             <div class="header-center">
-                <h1>⛏️ MINECRAFT WIKI</h1>
+                <h1>Minecraft Wiki</h1>
             </div>
             <div class="header-right">
                 <button class="theme-switcher" id="themeSwitcher">
-                    <i class="fas fa-palette"></i> Стиль
+                    <i class="fas fa-palette"></i> Тема
                 </button>
             </div>
         </header>
         
-        <div class="content">
-            <!-- Левая панель - Навигация -->
-            <div class="side-panel left-panel crt-effect">
+        <!-- Основной контент -->
+        <div class="main-content">
+            <!-- Левая панель навигации -->
+            <div class="side-panel">
                 <div class="categories-header">
                     <h2>Разделы Вики</h2>
-                    <span class="articles-count">45</span>
+                    <span class="articles-count">128</span>
                 </div>
                 
                 <!-- Категории -->
@@ -774,12 +664,16 @@
                     <button class="category-btn" data-category="guides">Гайды</button>
                     <button class="category-btn" data-category="blocks">Блоки</button>
                     <button class="category-btn" data-category="mobs">Мобы</button>
-                    <button class="category-btn" data-category="mods">Моды</button>
                 </div>
                 
+                <!-- Список статей -->
                 <ul class="wiki-list">
-                    <div style="color: #FFAA00; margin: 10px 0; font-weight: bold;">🎮 Геймплей</div>
-                    <li class="active" data-article="workbench">
+                    <li class="active" data-article="welcome">
+                        <div style="display: flex; align-items: center;">
+                            <span class="article-icon"><i class="fas fa-home"></i></span> Главная
+                        </div>
+                    </li>
+                    <li data-article="workbench">
                         <div style="display: flex; align-items: center;">
                             <span class="article-icon"><i class="fas fa-hammer"></i></span> Верстак
                         </div>
@@ -804,8 +698,6 @@
                             <span class="article-icon"><i class="fas fa-bolt"></i></span> Редстоун
                         </div>
                     </li>
-                    
-                    <div style="color: #FFAA00; margin: 10px 0; font-weight: bold;">🧱 Блоки и предметы</div>
                     <li data-article="wood">
                         <div style="display: flex; align-items: center;">
                             <span class="article-icon"><i class="fas fa-tree"></i></span> Дерево
@@ -821,13 +713,6 @@
                             <span class="article-icon"><i class="fas fa-gem"></i></span> Руды
                         </div>
                     </li>
-                    <li data-article="tools">
-                        <div style="display: flex; align-items: center;">
-                            <span class="article-icon"><i class="fas fa-tools"></i></span> Инструменты
-                        </div>
-                    </li>
-                    
-                    <div style="color: #FFAA00; margin: 10px 0; font-weight: bold;">👹 Мобы</div>
                     <li data-article="zombie">
                         <div style="display: flex; align-items: center;">
                             <span class="article-icon"><i class="fas fa-brain"></i></span> Зомби
@@ -838,11 +723,6 @@
                             <span class="article-icon"><i class="fas fa-bomb"></i></span> Крипер
                         </div>
                     </li>
-                    <li data-article="enderman">
-                        <div style="display: flex; align-items: center;">
-                            <span class="article-icon"><i class="fas fa-user-alt"></i></span> Эндермен
-                        </div>
-                    </li>
                 </ul>
                 
                 <div class="random-article-btn" id="random-article-btn">
@@ -850,14 +730,14 @@
                 </div>
             </div>
             
-            <!-- Центральная панель - Контент -->
-            <div class="content-panel crt-effect">
-                <div class="content-placeholder">
+            <!-- Центральная область контента -->
+            <div class="content-area">
+                <div class="content-display">
                     <div class="content-overlay">
-                        <h1 class="content-title">Добро пожаловать в Minecraft Wiki!</h1>
+                        <h1 class="content-title">Minecraft Wiki</h1>
                         <p class="content-description">
                             Самая полная энциклопедия по вселенной Майнкрафт. Здесь вы найдете гайды по выживанию, 
-                            описания всех блоков и предметов, информацию о мобах и многое другое.
+                            описания всех блоков и предметов, информацию о мобах, рецепты крафта и многое другое.
                         </p>
                         
                         <div class="stats-grid">
@@ -873,142 +753,136 @@
                                 <span class="stat-number">100+</span>
                                 <span class="stat-label">Мобов</span>
                             </div>
+                            <div class="stat-item">
+                                <span class="stat-number">50+</span>
+                                <span class="stat-label">Модов</span>
+                            </div>
                         </div>
                     </div>
                 </div>
+                
                 <div class="now-playing">
                     <h3>Сейчас просматривается: <span id="current-article">Главная страница</span></h3>
                     <p>Выберите статью из списка слева для просмотра</p>
                 </div>
-            </div>
-            
-            <!-- Правая панель - Дополнительная информация -->
-            <div class="side-panel crt-effect">
-                <div class="info-section">
-                    <h3>📖 Лор и история</h3>
-                    <ul class="info-list">
-                        <li><a href="ancient-builders/">Древние строители</a></li>
-                        <li><a href="end-cities/">Города Края</a></li>
-                        <li><a href="herobrine/">Легенда о Херобрине</a></li>
-                        <li><a href="villagers/">История жителей</a></li>
-                        <li><a href="nether-lore/">Тайны Нижнего мира</a></li>
-                    </ul>
-                </div>
                 
-                <div class="info-section">
-                    <h3>⚡ Популярные моды</h3>
-                    <ul class="info-list">
-                        <li><a href="create-mod/">Create</a></li>
-                        <li><a href="thaumcraft/">Thaumcraft</a></li>
-                        <li><a href="tinkers-construct/">Tinkers' Construct</a></li>
-                        <li><a href="jei/">JEI</a></li>
-                        <li><a href="optifine/">OptiFine</a></li>
-                    </ul>
-                </div>
-                
-                <div class="info-section">
-                    <h3>🔮 Секреты и достижения</h3>
-                    <ul class="info-list">
-                        <li><a href="easter-eggs/">Пасхалки</a></li>
-                        <li><a href="advancements/">Достижения</a></li>
-                        <li><a href="hidden-recipes/">Секретные рецепты</a></li>
-                        <li><a href="speedrun-tips/">Спидраны</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Панель управления -->
-        <div class="control-panel crt-effect">
-            <div class="control-top">
-                <div class="control-left">
-                    <div class="control-icon">
-                        <i class="fas fa-book"></i>
+                <!-- Панель управления -->
+                <div class="control-panel">
+                    <div class="control-top">
+                        <div class="control-left">
+                            <div class="control-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="article-text">
+                                <h2 id="control-article">Minecraft Wiki</h2>
+                                <p id="control-description">Энциклопедия по вселенной Майнкрафт</p>
+                            </div>
+                        </div>
+                        
+                        <div class="control-center">
+                            <button class="btn" id="prev-btn"><i class="fas fa-arrow-left"></i></button>
+                            <button class="btn btn-main" id="view-btn"><i class="fas fa-eye"></i></button>
+                            <button class="btn" id="next-btn"><i class="fas fa-arrow-right"></i></button>
+                        </div>
+                        
+                        <div class="control-buttons">
+                            <button class="btn btn-like" id="like-btn">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <button class="btn" id="share-btn">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                            <button class="btn" id="bookmark-btn">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="article-text">
-                        <h2 id="control-article">Minecraft Wiki</h2>
-                        <p id="control-description">Энциклопедия по вселенной Майнкрафт</p>
+                    
+                    <div class="control-bottom">
+                        <div class="progress-control">
+                            <span class="progress-icon"><i class="fas fa-scroll"></i></span>
+                            <input type="range" class="progress-slider" id="progress-slider" min="0" max="100" value="0">
+                            <span class="progress-icon"><i class="fas fa-flag-checkered"></i></span>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="control-center">
-                    <button class="btn" id="prev-btn"><i class="fas fa-arrow-left"></i></button>
-                    <button class="btn btn-main" id="view-btn"><i class="fas fa-eye"></i></button>
-                    <button class="btn" id="next-btn"><i class="fas fa-arrow-right"></i></button>
-                </div>
-                
-                <div class="control-buttons">
-                    <button class="btn-like" id="like-btn">
-                        <i class="far fa-heart"></i>
-                    </button>
-                    <button class="btn" id="share-btn">
-                        <i class="fas fa-share-alt"></i>
-                    </button>
-                    <button class="btn" id="bookmark-btn">
-                        <i class="far fa-bookmark"></i>
-                    </button>
                 </div>
             </div>
             
-            <div class="control-bottom">
-                <div class="progress-control">
-                    <span class="progress-icon"><i class="fas fa-scroll"></i></span>
-                    <input type="range" class="progress-slider" id="progress-slider" min="0" max="100" value="0">
-                    <span class="progress-icon"><i class="fas fa-flag-checkered"></i></span>
+            <!-- Правая панель информации -->
+            <div class="info-panel">
+                <div class="info-section">
+                    <h3>🔥 Популярные статьи</h3>
+                    <ul class="info-list">
+                        <li><a href="workbench/">Как сделать верстак</a></li>
+                        <li><a href="diamonds/">Поиск алмазов</a></li>
+                        <li><a href="nether-portal/">Портал в Ад</a></li>
+                        <li><a href="enchanting-table/">Стол зачарований</a></li>
+                        <li><a href="ender-dragon/">Эндер Дракон</a></li>
+                    </ul>
+                </div>
+                
+                <div class="info-section">
+                    <h3>⚡ Последние обновления</h3>
+                    <ul class="info-list">
+                        <li><a href="caves-cliffs/">Caves & Cliffs</a></li>
+                        <li><a href="wild-update/">The Wild Update</a></li>
+                        <li><a href="trails-tales/">Trails & Tales</a></li>
+                        <li><a href="mob-votes/">Голосования за мобов</a></li>
+                    </ul>
+                </div>
+                
+                <div class="info-section">
+                    <h3>🎮 Сообщество</h3>
+                    <ul class="info-list">
+                        <li><a href="servers/">Серверы</a></li>
+                        <li><a href="skins/">Скины</a></li>
+                        <li><a href="mods/">Моды</a></li>
+                        <li><a href="texture-packs/">Текстурпаки</a></li>
+                        <li><a href="maps/">Карты</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Уведомление -->
-    <div class="notification" id="notification">Текст уведомления</div>
+    <div class="notification" id="notification">Добро пожаловать в Minecraft Wiki!</div>
 
     <script>
         // Данные статей
         const articles = {
+            welcome: {
+                name: "Minecraft Wiki",
+                description: "Энциклопедия по вселенной Майнкрафт"
+            },
             workbench: {
                 name: "Верстак",
-                description: "Основной блок для крафта предметов 3x3",
-                category: "guides"
+                description: "Основной блок для крафта предметов 3x3"
             },
             furnace: {
                 name: "Печь",
-                description: "Для плавки руд и приготовления пищи",
-                category: "guides"
-            },
-            wood: {
-                name: "Дерево",
-                description: "Основной строительный материал",
-                category: "blocks"
-            },
-            zombie: {
-                name: "Зомби",
-                description: "Враждебный моб, появляется ночью",
-                category: "mobs"
+                description: "Для плавки руд и приготовления пищи"
             }
         };
 
-        // Массив с гифками в стиле Майнкрафт
+        // Массив с гифками
         const minecraftGifs = [
-            'https://i.pinimg.com/originals/05/cf/1b/05cf1b97379bb751d2bf03b55ee16c5e.gif',
-            'https://i.pinimg.com/originals/44/f2/f6/44f2f6325aa9bf8c93ed6c3d6e8f8d57.gif',
-            'https://i.pinimg.com/originals/da/85/43/da8543494a3baaec4fc61c2b952f8de0.gif',
-            'https://i.pinimg.com/originals/d9/04/03/d9040300483e5e5465e56ddb713eeb1b.gif',
-            'https://i.pinimg.com/originals/ac/25/3e/ac253eae753d0442a50f061051956cef.gif'
+            'https://i.pinimg.com/originals/7d/04/0e/7d040e94931427709008aaeda14db9c8.gif',
+            'https://i.pinimg.com/originals/20/c8/3d/20c83d1cb257a6c4e5f68960ef0c3046.gif',
+            'https://i.pinimg.com/originals/9a/99/a1/9a99a10635e27f336c2cd6bec02b2aae.gif'
         ];
 
-        // ПРОСТОЙ И РАБОЧИЙ ВАРИАНТ ЗАГРУЗКИ
+        // Загрузка страницы
         window.onload = function() {
             setTimeout(function() {
                 document.getElementById('loadingScreen').style.display = 'none';
                 document.getElementById('mainContainer').style.display = 'flex';
                 initApp();
-            }, 1500);
+            }, 2000);
         };
 
         function initApp() {
-            console.log('Minecraft Wiki запущена!');
-            
+            // Элементы управления
             const viewButton = document.getElementById('view-btn');
             const prevButton = document.getElementById('prev-btn');
             const nextButton = document.getElementById('next-btn');
@@ -1021,60 +895,43 @@
             const categoryBtns = document.querySelectorAll('.category-btn');
             const themeSwitcher = document.getElementById('themeSwitcher');
             const notification = document.getElementById('notification');
-            const contentPlaceholder = document.querySelector('.content-placeholder');
+            const contentDisplay = document.querySelector('.content-display');
             
-            let currentArticleIndex = 0;
-            let currentArticle = 'workbench';
+            let currentArticle = 'welcome';
             let isViewing = false;
-            let currentTheme = 'default';
-            
+
             // Функция показа уведомления
-            function showNotification(message, type = 'info') {
+            function showNotification(message) {
                 notification.textContent = message;
-                notification.className = 'notification';
-                
-                if (type === 'success') {
-                    notification.style.background = '#55FF55';
-                    notification.style.color = '#000';
-                } else if (type === 'error') {
-                    notification.style.background = '#FF5555';
-                    notification.style.color = '#FFF';
-                } else {
-                    notification.style.background = '#55AAFF';
-                    notification.style.color = '#000';
-                }
-                
                 notification.classList.add('show');
                 
                 setTimeout(() => {
                     notification.classList.remove('show');
                 }, 3000);
             }
-            
+
             // Функция смены гифки
             function changeGif() {
                 const randomGif = minecraftGifs[Math.floor(Math.random() * minecraftGifs.length)];
-                contentPlaceholder.style.backgroundImage = `url('${randomGif}')`;
+                contentDisplay.style.backgroundImage = `url('${randomGif}')`;
             }
-            
+
             // Функция обновления информации о статье
             function updateArticleInfo() {
-                const article = articles[currentArticle] || { name: "Minecraft Wiki", description: "Энциклопедия по вселенной Майнкрафт" };
+                const article = articles[currentArticle] || articles.welcome;
                 
                 document.getElementById('current-article').textContent = article.name;
                 document.getElementById('control-article').textContent = article.name;
                 document.getElementById('control-description').textContent = article.description;
                 
-                // Обновляем прогресс
                 progressSlider.value = isViewing ? 50 : 0;
             }
-            
+
             // Функция смены статьи
             function changeArticle(articleId) {
                 currentArticle = articleId;
                 updateArticleInfo();
                 
-                // Обновляем активный элемент в списке
                 articleItems.forEach(item => {
                     item.classList.remove('active');
                     if (item.getAttribute('data-article') === articleId) {
@@ -1083,206 +940,58 @@
                 });
                 
                 changeGif();
-                showNotification(`Открыта статья: ${articles[articleId]?.name || articleId}`, 'success');
+                showNotification(`Открыта статья: ${articles[articleId]?.name || articleId}`);
             }
-            
-            // Фильтрация статей по категориям
-            function filterArticlesByCategory(category) {
-                articleItems.forEach(item => {
-                    const articleId = item.getAttribute('data-article');
-                    const article = articles[articleId];
-                    
-                    if (category === 'all' || (article && article.category === category)) {
-                        item.style.display = 'flex';
-                        // Показываем родительские категории если есть статьи
-                        if (item.previousElementSibling && item.previousElementSibling.style.color === '#FFAA00') {
-                            item.previousElementSibling.style.display = 'block';
-                        }
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-                
-                // Скрываем пустые категории
-                document.querySelectorAll('.wiki-list div[style*="color: #FFAA00"]').forEach(categoryTitle => {
-                    const nextSibling = categoryTitle.nextElementSibling;
-                    if (!nextSibling || nextSibling.style.display === 'none') {
-                        let hasVisible = false;
-                        let sibling = categoryTitle.nextElementSibling;
-                        while (sibling && !(sibling.style && sibling.style.color === '#FFAA00')) {
-                            if (sibling.style.display !== 'none') {
-                                hasVisible = true;
-                                break;
-                            }
-                            sibling = sibling.nextElementSibling;
-                        }
-                        if (!hasVisible) {
-                            categoryTitle.style.display = 'none';
-                        } else {
-                            categoryTitle.style.display = 'block';
-                        }
-                    }
-                });
-            }
-            
-            // Обработчики категорий
-            categoryBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    // Убираем активный класс у всех кнопок
-                    categoryBtns.forEach(b => b.classList.remove('active'));
-                    // Добавляем активный класс к нажатой кнопке
-                    btn.classList.add('active');
-                    
-                    const category = btn.dataset.category;
-                    filterArticlesByCategory(category);
-                });
-            });
-            
-            // Обработчик кнопки просмотра
-            viewButton.addEventListener('click', function() {
-                isViewing = !isViewing;
-                
-                if (isViewing) {
-                    viewButton.innerHTML = '<i class="fas fa-times"></i>';
-                    viewButton.style.background = 'linear-gradient(135deg, #FF5555 0%, #2d2d2d 100%)';
-                    showNotification('Режим просмотра статьи', 'success');
-                } else {
-                    viewButton.innerHTML = '<i class="fas fa-eye"></i>';
-                    viewButton.style.background = 'linear-gradient(135deg, #55FF55 0%, #2d2d2d 100%)';
-                    showNotification('Режим просмотра отключен', 'info');
-                }
-                
-                updateArticleInfo();
-            });
-            
-            // Обработчик кнопки "Случайная статья"
-            randomArticleBtn.addEventListener('click', function() {
-                const availableArticles = Array.from(articleItems)
-                    .filter(item => item.style.display !== 'none')
-                    .map(item => item.getAttribute('data-article'));
-                
-                if (availableArticles.length > 0) {
-                    const randomArticle = availableArticles[Math.floor(Math.random() * availableArticles.length)];
-                    changeArticle(randomArticle);
-                }
-            });
-            
-            // Обработчик кнопки лайка
-            likeButton.addEventListener('click', function() {
-                const icon = likeButton.querySelector('i');
-                if (icon.classList.contains('far')) {
-                    icon.className = 'fas fa-heart';
-                    likeButton.style.background = 'rgba(255, 85, 85, 0.3)';
-                    likeButton.style.borderColor = '#FF5555';
-                    showNotification('Статья добавлена в избранное', 'success');
-                } else {
-                    icon.className = 'far fa-heart';
-                    likeButton.style.background = 'rgba(50, 50, 50, 0.9)';
-                    likeButton.style.borderColor = '#5a5a5a';
-                    showNotification('Статья удалена из избранного', 'info');
-                }
-            });
-            
-            // Обработчик кнопки закладки
-            bookmarkButton.addEventListener('click', function() {
-                const icon = bookmarkButton.querySelector('i');
-                if (icon.classList.contains('far')) {
-                    icon.className = 'fas fa-bookmark';
-                    bookmarkButton.style.background = 'rgba(255, 170, 0, 0.3)';
-                    bookmarkButton.style.borderColor = '#FFAA00';
-                    showNotification('Закладка добавлена', 'success');
-                } else {
-                    icon.className = 'far fa-bookmark';
-                    bookmarkButton.style.background = 'rgba(50, 50, 50, 0.9)';
-                    bookmarkButton.style.borderColor = '#5a5a5a';
-                    showNotification('Закладка удалена', 'info');
-                }
-            });
-            
-            // Обработчик кнопки шаринга
-            shareButton.addEventListener('click', function() {
-                const articleName = articles[currentArticle]?.name || 'Minecraft Wiki';
-                if (navigator.share) {
-                    navigator.share({
-                        title: articleName,
-                        text: 'Посмотри эту статью в Minecraft Wiki!',
-                        url: window.location.href,
-                    })
-                    .then(() => showNotification('Статья успешно отправлена!', 'success'))
-                    .catch(() => showNotification('Ошибка отправки', 'error'));
-                } else {
-                    navigator.clipboard.writeText(window.location.href)
-                        .then(() => showNotification('Ссылка скопирована в буфер обмена!', 'success'))
-                        .catch(() => showNotification('Не удалось скопировать ссылку', 'error'));
-                }
-            });
-            
-            // Обработчик переключения темы
-            themeSwitcher.addEventListener('click', function() {
-                if (currentTheme === 'default') {
-                    document.body.style.backgroundColor = '#0a0a0a';
-                    document.body.style.backgroundImage = 'none';
-                    currentTheme = 'dark';
-                    themeSwitcher.innerHTML = '<i class="fas fa-palette"></i> Светлая';
-                    showNotification('Темная тема включена', 'success');
-                } else {
-                    document.body.style.backgroundColor = '#121212';
-                    document.body.style.backgroundImage = 
-                        'linear-gradient(rgba(18, 16, 16, 0.1) 1px, transparent 1px),' +
-                        'linear-gradient(90deg, rgba(18, 16, 16, 0.1) 1px, transparent 1px)';
-                    currentTheme = 'default';
-                    themeSwitcher.innerHTML = '<i class="fas fa-palette"></i> Темная';
-                    showNotification('Стандартная тема включена', 'success');
-                }
-            });
-            
-            // Обработчики выбора статьи из списка
+
+            // Обработчики статей
             articleItems.forEach(item => {
                 item.addEventListener('click', function() {
                     const articleId = this.getAttribute('data-article');
                     changeArticle(articleId);
                 });
             });
-            
-            // Обработчики навигации
-            prevButton.addEventListener('click', function() {
-                const availableArticles = Array.from(articleItems)
-                    .filter(item => item.style.display !== 'none')
-                    .map(item => item.getAttribute('data-article'));
-                
-                const currentIndex = availableArticles.indexOf(currentArticle);
-                const prevIndex = (currentIndex - 1 + availableArticles.length) % availableArticles.length;
-                
-                if (availableArticles[prevIndex]) {
-                    changeArticle(availableArticles[prevIndex]);
-                }
+
+            // Обработчики кнопок
+            viewButton.addEventListener('click', function() {
+                isViewing = !isViewing;
+                viewButton.innerHTML = isViewing ? '<i class="fas fa-times"></i>' : '<i class="fas fa-eye"></i>';
+                updateArticleInfo();
+                showNotification(isViewing ? 'Режим просмотра' : 'Режим обзора');
             });
-            
-            nextButton.addEventListener('click', function() {
-                const availableArticles = Array.from(articleItems)
-                    .filter(item => item.style.display !== 'none')
-                    .map(item => item.getAttribute('data-article'));
-                
-                const currentIndex = availableArticles.indexOf(currentArticle);
-                const nextIndex = (currentIndex + 1) % availableArticles.length;
-                
-                if (availableArticles[nextIndex]) {
-                    changeArticle(availableArticles[nextIndex]);
-                }
+
+            randomArticleBtn.addEventListener('click', function() {
+                const randomIndex = Math.floor(Math.random() * articleItems.length);
+                const randomArticle = articleItems[randomIndex].getAttribute('data-article');
+                changeArticle(randomArticle);
             });
-            
+
+            likeButton.addEventListener('click', function() {
+                const icon = likeButton.querySelector('i');
+                icon.className = icon.classList.contains('far') ? 'fas fa-heart' : 'far fa-heart';
+                showNotification(icon.classList.contains('fas') ? 'Добавлено в избранное' : 'Удалено из избранного');
+            });
+
+            bookmarkButton.addEventListener('click', function() {
+                const icon = bookmarkButton.querySelector('i');
+                icon.className = icon.classList.contains('far') ? 'fas fa-bookmark' : 'far fa-bookmark';
+                showNotification(icon.classList.contains('fas') ? 'Закладка добавлена' : 'Закладка удалена');
+            });
+
+            shareButton.addEventListener('click', function() {
+                showNotification('Ссылка скопирована в буфер обмена!');
+            });
+
+            themeSwitcher.addEventListener('click', function() {
+                showNotification('Смена темы');
+            });
+
             // Инициализация
             changeGif();
             updateArticleInfo();
-            
-            // Меняем гифку каждые 10 секунд
+            showNotification('Добро пожаловать в Minecraft Wiki!');
+
+            // Смена гифки каждые 10 секунд
             setInterval(changeGif, 10000);
-            
-            // Простой счетчик посещений
-            let visitCount = localStorage.getItem('minecraftWikiVisits') || 0;
-            visitCount = parseInt(visitCount) + 1;
-            localStorage.setItem('minecraftWikiVisits', visitCount);
-            console.log(`Количество посещений Minecraft Wiki: ${visitCount}`);
         }
     </script>
 </body>
